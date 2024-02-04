@@ -17,7 +17,7 @@ with open("index.html") as f:
 
 
 #ssid, password = secrets.WIFI_SSID, secrets.WIFI_PASSWORD  # pylint: disable=no-member
-ssid, password = "Wifipower, "defacto1"  # pylint: disable=no-member
+ssid, password = "Wifipower", "defacto1"  # pylint: disable=no-member
 
 print("Connecting to", ssid)
 wifi.radio.connect(ssid, password)
@@ -71,18 +71,14 @@ def base(request: HTTPRequest):
 
 
 
-@server.route("/led", "POST")
+@server.route("/led", "GET")
 def ledButton(request: HTTPRequest):
-    # data = json.loads(raw_text)
-    data = requestToArray(request)
-    print(f"data: {data} & action: {data['action']}")
     rData = {}
     
-    if (data['action'] == 'lightON'):
-        led.value = True
-        
-    if (data['action'] == 'lightOFF'):
+    if led.value:
         led.value = False
+    else:
+        led.value = True
     
     rData['item'] = "onboardLED"
     rData['status'] = led.value
