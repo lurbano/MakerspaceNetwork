@@ -65,7 +65,7 @@ The first argument ("/"), indicates the base of the webpage url (does not need t
 The message is sent as a POST request.
 
 ## Server Recieve Message (code.py)
-The server recieves the POST message sent to "/" in the ection that starts with:
+The server recieves the POST message sent to "/" in the section that starts with:
 ```python
 @server.route("/", "POST")
 ```
@@ -87,13 +87,14 @@ To turn the pico's onboard LED (assuming that the variable ```led``` is set up p
 Notice that we set the values of ```rData``` which is returned to the client (webpage) at the end of the function.
 
 ## Webpage handles the reply
-The reply from the server gets caught in the ```sendRequest``` function in the ```//Handle responses``` sectioin. For the response for this example is captured and the "status" is put into the DIV with the id "ledStatus" on the webpage with:
+The reply from the server gets caught in the ```sendRequest``` function in the ```//Handle responses``` section. The response is captured and put into the ```data``` dictionary (which is the ```rData``` dictionary that was returned from the server, renamed as 'data["item"]' and 'data["status"]'). In this example, the "status" is put into the DIV with the id "ledStatus" on the webpage with:
 ```js
                 //Handle responses
                 if (data["item"] == "onboardLED") {
                     ledStatus.innerText = data["status"];
                 }
 ```
+
 
 ## Test
 * Open ```code.py``` in Thonny and run.
