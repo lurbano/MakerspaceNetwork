@@ -1,25 +1,27 @@
 # MakerspaceNetwork
+In-house method for communitcation between computers and Raspberry Pi PicoW's.  
 
-
-## Desktop: mint/server.py
+## For Desktop: mint/server.py
 Python server for desktop (tested with Linux Mint)
-* serves (GET at "/"): ```index.html```
+* To INSTALL: copy ```server.py``` and ```index.html``` files to their own directory.
+* serves ```index.html``` (GET at "/")
 To run use:
 ```
 python3 server.py
 ```
 
 
-## PicoW: picoW/code.py
+## For PicoW: picoW/code.py
 PicoW server using adafruit's requests
-* install: Download and copy the circuitpython uf2 to the Pico from:
+* To INSTALL: Download and copy the circuitpython uf2 to the Pico from:
     * https://circuitpython.org/board/raspberry_pi_pico_w/
-* copy: all files and folders in the ```picoW``` folder to the Pico. The```code.py``` file should run automatically on the Pico, but use Thonny (recommended) to debug.
+* COPY: all files and folders in the ```picoW``` folder to the Pico. The```code.py``` file should run automatically on the Pico, but use Thonny (recommended) to debug.
 
 
 ## Makerspace POST protocol:
-* handles POST data in JSON in the form (where "lightON" is an example value).  'action' is a single string for quick messages/instructions. "value" can be any string, you just have to write the code to handle it.
+This simple protocol, in JSON format, facilitate sending data between picos and the main server.
 
+e.g.
 ```json
 {
     'action': "getTime", 
@@ -27,9 +29,14 @@ PicoW server using adafruit's requests
 }
 ```
 
-* POST returns the 'rData' dictionary to pass info back to the calling computer with:
+* the servers handle POST data in JSON in the form (where "lightON" is an example value).  'action' is a single string for quick messages/instructions. "value" can be any string, you just have to write the code to handle it.
+
+
+* the server returns the 'rData' dictionary to pass info back to the calling computer with:
     * rData['item']
     * rData['status']
+
+(Note: on the webpage (client) the returned data is processed and renamed "data")
 
 # Example Usage PicoW
 
@@ -69,7 +76,7 @@ data['action']
 data['value']
 ```
 
-To turn the pico's onboard LED on we do:
+To turn the pico's onboard LED (assuming that the variable ```led``` is set up previously in the code) on we do:
 ```python
     if (data['action'] == "lightON"):
             led.value = True
