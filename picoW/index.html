@@ -22,8 +22,8 @@
                 data = JSON.parse(this.responseText);
                 
                 //Handle responses
-                if (data["item"] == "time") {
-                    timeSlot.innerText = data["status"];
+                if (data["item"] == "onboardLED") {
+                    ledStatus.innerText = data["status"];
                 }
             }
         }

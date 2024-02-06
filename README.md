@@ -19,7 +19,14 @@ PicoW server using adafruit's requests
 
 ## Makerspace POST protocol:
 * handles POST data in JSON in the form (where "lightON" is an example value).  'action' is a single string for quick messages/instructions. "value" can be any string, you just have to write the code to handle it.
-    * {'action': "getTime", 'value': ""}
+
+```json
+{
+    'action': "getTime", 
+    'value': ""
+}
+```
+
 * POST returns the 'rData' dictionary to pass info back to the calling computer with:
     * rData['item']
     * rData['status']
@@ -34,14 +41,14 @@ This example will
 
 ## Create button (html) (index.html)
 Inside the ```index.html``` file's ```<body>``` tags add button code:
-```
+```html
 <input type="button" id = "ledON" value="LED ON">
 ```
 Give it a unique ```id```, and the ```value``` is what shows up on the button.
 
 ## Send message on click (JavaScript) (index.html)
 Inside the ```index.html``` file's ```<script>``` tags add code to detect a click on the button and send message to server:
-```
+```js
     ledON.addEventListener("click", function(){
         sendRequest("/", "lightON");
     })
@@ -56,3 +63,27 @@ The server recieves the POST message sent to "/" in the ection that starts with:
 @server.route("/", "POST")
 ```
 
+Data recieved with the right protocol (see above) will be accessible as:
+```python
+data['action']
+data['value']
+```
+
+To turn the pico's onboard LED on we do:
+```python
+    if (data['action'] == "lightON"):
+            led.value = True
+            rData['item'] = "onboardLED"
+            rData['status'] = led.value
+```
+
+Notice that we set the values of ```rData``` which is returned to the client (webpage) at the end of the function.
+
+# Webpage handles the reply
+The reply from the server gets caught in the ```sendRequest``` function in the ```//Handle responses``` sectioin. For the response for this example is captured and the "status" is put into the DIV with the id "ledStatus" on the webpage with:
+```js
+//Handle responses
+                if (data["item"] == "onboardLED") {
+                    ledStatus.innerText = data["status"];
+                }
+```

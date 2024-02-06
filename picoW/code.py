@@ -63,13 +63,16 @@ def base(request: HTTPRequest):
     # SET MODE
     if (data['action'] == "lightON"):
         led.value = True
+        rData['item'] = "onboardLED"
+        rData['status'] = led.value
     if (data['action'] == "lightOFF"):
         led.value = False
 
         rData['item'] = "onboardLED"
         rData['status'] = led.value
 
-
+    with HTTPResponse(request) as response:
+        response.send(json.dumps(rData))
 
 @server.route("/led", "GET")
 def ledButton(request: HTTPRequest):
