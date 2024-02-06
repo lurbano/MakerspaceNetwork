@@ -79,11 +79,17 @@ To turn the pico's onboard LED on we do:
 
 Notice that we set the values of ```rData``` which is returned to the client (webpage) at the end of the function.
 
-# Webpage handles the reply
+## Webpage handles the reply
 The reply from the server gets caught in the ```sendRequest``` function in the ```//Handle responses``` sectioin. For the response for this example is captured and the "status" is put into the DIV with the id "ledStatus" on the webpage with:
 ```js
-//Handle responses
+                //Handle responses
                 if (data["item"] == "onboardLED") {
                     ledStatus.innerText = data["status"];
                 }
 ```
+
+## Test
+* Open ```code.py``` in Thonny and run.
+* Click on the url link in the Thonny Shell to get the webpage
+* Click the "LED ON" and "LED OFF" buttons on the page. 
+    * The led on the picoW should turn on and off, and it should say "true" and "false" on the webpage.
