@@ -24,7 +24,7 @@ PicoW server using adafruit's requests
     * rData['item']
     * rData['status']
 
-# Example Usage
+# Example Usage PicoW
 
 This example will 
 * create a button on the web page 
@@ -32,14 +32,14 @@ This example will
 * server recieves the message and does something (get the time, or light the led on the Pico)
 * server sends a message back to the webpage (client) to let it know what happened.
 
-## Create button (html)
+## Create button (html) (index.html)
 Inside the ```index.html``` file's ```<body>``` tags add button code:
 ```
 <input type="button" id = "ledON" value="LED ON">
 ```
 Give it a unique ```id```, and the ```value``` is what shows up on the button.
 
-## Send message on click (JavaScript)
+## Send message on click (JavaScript) (index.html)
 Inside the ```index.html``` file's ```<script>``` tags add code to detect a click on the button and send message to server:
 ```
     ledON.addEventListener("click", function(){
@@ -47,3 +47,12 @@ Inside the ```index.html``` file's ```<script>``` tags add code to detect a clic
     })
 ```
 The first argument ("/"), indicates the base of the webpage url (does not need to change), and the second argument is the ```action``` paramenter that's sent to the server (see the protocol). A third argument would be the ```value``` parameter.
+
+The message is sent as a POST request.
+
+## Server Recieve Message (code.py)
+The server recieves the POST message sent to "/" in the ection that starts with:
+```python
+@server.route("/", "POST")
+```
+
