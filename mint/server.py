@@ -1,95 +1,56 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import os
-import json
-import subprocess
-import time
-from urllib.parse import quote
-import socket 
-
+import asyncio
+from aiohttp import web, ClientSession
 from datetime import datetime
+import json
 
-port = 8000
-hostname=socket.gethostname()
-ipAddr = socket.gethostbyname(hostname)
+async def handle(request):
+    with open("index.html", "r") as f:
+        html_content = f.read()
+    return web.Response(text=html_content, content_type='text/html')
 
-print(f"Serving from: http://{hostname}.local:{port}")
-print(f"at IP: http://{ipAddr}:{port}")
+async def handlePost(request):
+    data = await request.json()
+    rData = {}
+    print(data)
+    # print(data["action"], data["value"])
+    if data['action'] == "getTime":
+        now = datetime.now()
 
+        print(now.ctime())
+        rData['item'] = "time"
+        rData['status'] = now.ctime() # a string representing the current time
+    
+    response = json.dumps(rData)
+    print("Response: ", response)
+    # return web.json_response(response)
+    return web.Response(text=response, content_type='text/html')
 
-''' Function to convert the post data to an array for easier use'''
-def postDataToArray(postData):
-    raw_text = postData.decode("utf8")
-    print("Raw")
-    data = json.loads(raw_text)
-    return data
+    
+async def print_hello():
+    while True:
+        print("Hello")
+        await asyncio.sleep(1)
 
+async def getLightLevel(dt=1):
+    while True:
+        async with ClientSession() as session:
+            async with session.get('http://20.1.0.96:80/photoResistor') as resp:
+                print(resp.status)
+                print(await resp.text())
+        await asyncio.sleep(dt)
 
-''' Handle GET and POST requests to the server'''
-class uHTTPRequestHandler(BaseHTTPRequestHandler):
+async def main():
+    app = web.Application()
+    app.router.add_get('/', handle)
+    app.router.add_post("/", handlePost)
 
-    def _set_headers(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, 'localhost', 8080)
+    await site.start()
+    asyncio.create_task(print_hello())
+    asyncio.create_task(getLightLevel(dt=5))
+    await asyncio.Event().wait()  # Keep the event loop running
 
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/index.html'
-        try:
-            file_to_open = open(self.path[1:]).read()
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(bytes(file_to_open, 'utf-8'))
-        except:
-            self.send_response(404)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b'404 - Not Found')
-
-    def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-        data = postDataToArray(post_data)
-        '''
-        data consists of 
-            data['action'] and 
-            data['value']
-        '''
-        self._set_headers()
-        print(data)
-        rData = {}
-        rData['item'] = ""
-        rData['status'] = ""
-        
-        
-        if data['action'] == "getTime":
-            now = datetime.now()
-
-            print(now.ctime())
-            rData['item'] = "time"
-            rData['status'] = now.ctime() # a string representing the current time
-
- 
-
-        self.wfile.write(bytes(json.dumps(rData), 'utf-8'))
-
-
-
-
-httpd = HTTPServer(('', port), uHTTPRequestHandler)
-# httpd.serve_forever()
-
-while True:
-    httpd.handle_request()
-    time.sleep(0.1)
-
-
-# while True:
-#     httpd.handle_request()
-#     now = time.localtime()
-#     print(f"Time: {now.tm_hour}:{now.tm_min} | {alarmTime.hr}:{alarmTime.min}")
-#     if (now.tm_hour == alarmTime.hr) and (now.tm_min == alarmTime.min) and not alarmOn:
-#         print("We have alarm!")
-#         alarmOn = True 
-#         rhythmboxCommand("play")
+if __name__ == '__main__':
+    asyncio.run(main())
