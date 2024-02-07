@@ -8,6 +8,7 @@
 <body>
     <input type="button" id = "timeBut" value="Get Time">
     <div id="timeSlot">Time</div>
+    <div id="MkspPhotoResistor"></div>
 </body>
 
 <script>
@@ -19,9 +20,12 @@
                 
                 console.log("Server Response:", this.responseText);
                 data = JSON.parse(this.responseText);
+                console.log("data:", data);
+                console.log("data['item']:", data["item"]);
                 
                 //Handle responses
                 if (data["item"] == "time") {
+                    console.log("Got the time: ", data["status"]);
                     timeSlot.innerText = data["status"];
                 }
             }
