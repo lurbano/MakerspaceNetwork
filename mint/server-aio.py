@@ -1,5 +1,5 @@
 import asyncio
-from aiohttp import web
+from aiohttp import web, ClientSession
 from datetime import datetime
 import json
 
@@ -31,6 +31,14 @@ async def print_hello():
         print("Hello")
         await asyncio.sleep(1)
 
+async def getLightLevel(dt=1):
+    while True:
+        async with ClientSession() as session:
+            async with session.get('http://20.1.0.96:80/photoResistor') as resp:
+                print(resp.status)
+                print(await resp.text())
+        await asyncio.sleep(dt)
+
 async def main():
     app = web.Application()
     app.router.add_get('/', handle)
@@ -41,6 +49,7 @@ async def main():
     site = web.TCPSite(runner, 'localhost', 8080)
     await site.start()
     asyncio.create_task(print_hello())
+    asyncio.create_task(getLightLevel(dt=5))
     await asyncio.Event().wait()  # Keep the event loop running
 
 if __name__ == '__main__':
