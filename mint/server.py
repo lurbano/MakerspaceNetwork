@@ -47,10 +47,15 @@ async def main():
 
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, 'localhost', 8080)
+    host = '192.168.0.207'
+    site = web.TCPSite(runner, host, 8080)  # Bind to the local IP address
     await site.start()
-    host = socket.gethostbyname(socket.gethostname())
     print(f"Server running at http://{host}:8080/")
+
+    # site = web.TCPSite(runner, 'localhost', 8080)
+    # await site.start()
+    # host = socket.gethostbyname(socket.gethostname())
+    # print(f"Server running at http://{host}:8080/")
     asyncio.create_task(print_hello())
     asyncio.create_task(getLightLevel(dt=5))
     await asyncio.Event().wait()  # Keep the event loop running
