@@ -2,6 +2,7 @@ import asyncio
 from aiohttp import web, ClientSession
 from datetime import datetime
 import json
+import socket
 
 async def handle(request):
     with open("index.html", "r") as f:
@@ -48,6 +49,8 @@ async def main():
     await runner.setup()
     site = web.TCPSite(runner, 'localhost', 8080)
     await site.start()
+    host = socket.gethostbyname(socket.gethostname())
+    print(f"Server running at http://{host}:8080/")
     asyncio.create_task(print_hello())
     asyncio.create_task(getLightLevel(dt=5))
     await asyncio.Event().wait()  # Keep the event loop running
