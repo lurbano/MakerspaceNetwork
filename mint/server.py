@@ -47,7 +47,11 @@ async def main():
 
     runner = web.AppRunner(app)
     await runner.setup()
-    host = getIP()
+    try: 
+        host = getIP()
+    except:
+        host = "localhost"
+        print("Unable to find IP address. Reverting to localhost.")
     site = web.TCPSite(runner, host, 8080)  # Bind to the local IP address
     await site.start()
     print(f"Server running at http://{host}:8080/")
