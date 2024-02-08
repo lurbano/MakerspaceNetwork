@@ -3,7 +3,8 @@ In-house method for communitcation between computers and Raspberry Pi PicoW's.
 
 ## For Desktop: mint/server.py
 Python server for desktop (tested with Linux Mint). Uses aoihttp to be asynchronous, so we can do other things while still serving.
-* To INSTALL: copy ```server.py``` and ```index.html``` files to your serving directory.
+* To INSTALL: copy ```server.py```, ```index.html```, and ```getIP.py``` files to your serving directory.
+* Currently you have to hardwire your ip address (use ```ifconfig``` to check) as ```host = ...```.
 * serves ```index.html``` (GET at "/")
 To run use:
 ```bash

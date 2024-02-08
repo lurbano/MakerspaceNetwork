@@ -2,7 +2,7 @@ import asyncio
 from aiohttp import web, ClientSession
 from datetime import datetime
 import json
-import socket
+from getIP import getIP
 
 async def handle(request):
     with open("index.html", "r") as f:
@@ -47,7 +47,7 @@ async def main():
 
     runner = web.AppRunner(app)
     await runner.setup()
-    host = '192.168.0.207'
+    host = getIP()
     site = web.TCPSite(runner, host, 8080)  # Bind to the local IP address
     await site.start()
     print(f"Server running at http://{host}:8080/")
