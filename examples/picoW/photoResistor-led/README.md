@@ -2,7 +2,7 @@
 
 # Example Usage Desktop Server
 
-This example shows the procedure press a button on the served webpage that gets the current date and time from the server.
+This example shows the procedure to add a button to the served webpage that gets the current date and time from the server.
 * create a button on the web page 
 * on a click, send a message to the server
 * server recieves the message and does something (get the time)
@@ -40,7 +40,7 @@ data['action']
 data['value']
 ```
 
-In this case the data['action'] is "getTime, so we create an if statement to deal with any messages who's action is "getTime".
+In this case the data['action'] is "getTime", so we create an if statement to deal with any messages who's action is "getTime".
 ```python
     if data['action'] == "getTime":
         now = datetime.now()
