@@ -8,6 +8,8 @@
 <body>
     <input type="button" id = "timeBut" value="Get Time">
     <div id="timeSlot">Time</div>
+
+    <input id="lightLevelButton" type="button" value="Get Light Level From Makerspace Testing PicoW">
     <div id="MkspPhotoResistor"></div>
 </body>
 
@@ -28,6 +30,10 @@
                     console.log("Got the time: ", data["status"]);
                     timeSlot.innerText = data["status"];
                 }
+                if (data["item"] == "photoResistor") {
+                    console.log("Light Level: ", data["status"]);
+                    MkspPhotoResistor.innerText = data["status"];
+                }
             }
         }
         let data = {};
@@ -40,6 +46,9 @@
 
     timeBut.addEventListener("click", function(){
         sendRequest("/", "getTime");
+    })
+    lightLevelButton.addEventListener("click", function(){
+        sendRequest("/", "photoResistor");
     })
 
 </script>
