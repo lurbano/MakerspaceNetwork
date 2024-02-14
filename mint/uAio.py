@@ -35,4 +35,7 @@ async def postRequest(addr="192.168.1.142:8000", action="", value=""):
     async with ClientSession() as session:
         async with session.post(url, data=json.dumps(data)) as resp:
             print(resp.status)
-            print(await resp.text())
+            # print(await resp.text())
+            data = await resp.text()
+            print("Pico (GET) response:", data)
+            return data
