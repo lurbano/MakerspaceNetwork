@@ -1,6 +1,6 @@
 Note: the examples/ directory has the code for the MakerspaceNetwork demo picoW that has a light sensor (photoresistor), and LED. 
 
-# Example Usage PicoW
+# Example Adding Buttons: PicoW
 
 This example shows the procedure I used to have a web page to turn the picoW's onboard LED on and off.  
 * create a button on the web page 
@@ -65,3 +65,17 @@ The reply from the server gets caught in the ```sendRequest``` function in the `
     * The led on the picoW should turn on and off, and it should say "true" and "false" on the webpage.
 
 
+# Example: Sending requests to other devices from the server
+
+Import uNetComm and set it up after the server is set up (around line 30 in code.py):
+```python
+from uNetComm import *
+comm = uNetComm(pool)
+```
+
+To send a message to ```deviceName``` use:
+```python
+comm.request("deviceName", "setMode", "red")
+```
+
+where the first variable is the address, asecond and third variables are the "action" and

@@ -26,6 +26,8 @@ print("Connected to", ssid)
 pool = socketpool.SocketPool(wifi.radio)
 server = HTTPServer(pool)
 
+# from uNetComm import *
+# comm = uNetComm(pool)
 
 led = DigitalInOut(board.LED)
 led.direction = Direction.OUTPUT
