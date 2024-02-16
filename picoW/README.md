@@ -78,4 +78,4 @@ To send a message to ```deviceName``` use:
 comm.request("deviceName", "setMode", "red")
 ```
 
-where the first variable is the address, asecond and third variables are the "action" and
+where the first variable is the address, while the second and third variables are the data["action"] and data["value"].
