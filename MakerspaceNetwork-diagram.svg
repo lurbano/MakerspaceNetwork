@@ -131,5 +131,15 @@ viewBox="0 0 29197.11 20061.24"
   </g>
   <text x="1169.46" y="4745.51"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
   <text x="1056.4" y="5172.29"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(webpage)</text>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M23292.83 4997.75l-4871.46 -1642.13 20.06 -59.5 4871.46 1642.13 -20.06 59.5zm355.27 86.63l-425.7 59.4 122.79 -364.28 302.91 304.88z"/>
+  </g>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M18759.58 3892.89l4871.46 1642.12 -20.06 59.5 -4871.46 -1642.12 20.06 -59.5zm-355.27 -86.63l425.7 -59.4 -122.79 364.28 -302.91 -304.88z"/>
+  </g>
+  <text x="20337.04" y="3476.97"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="20337.04" y="3903.75"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(on/off)</text>
+  <text x="22644.59" y="3021.76"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(devices can talk </text>
+  <text x="22865.15" y="3407.56"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">to each other)</text>
  </g>
 </svg>
