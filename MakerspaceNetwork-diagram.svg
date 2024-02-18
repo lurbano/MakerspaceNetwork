@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2019 (64-Bit Not for commercial use) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="328.084mm" height="225.425mm" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
+viewBox="0 0 29197.11 20061.24"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect fill="none" stroke="black" stroke-width="15.7" stroke-miterlimit="2.61313" x="7.84" y="7.84" width="29181.42" height="20045.54"/>
+  <text x="14882.32" y="9975.68"  fill="black" font-weight="bold" font-size="565.11px" font-family="Arial">Main Server</text>
+  <text x="14494.88" y="10436.45"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">(Linux) (python: aiohttp)</text>
+  <text x="4533.63" y="7269.02"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">PicoW</text>
+  <text x="4519.76" y="7703.19"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">(server)</text>
+  <text x="4016.73" y="8124.07"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">Light Sensors</text>
+  <text x="24451.13" y="5602.41"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">PicoW</text>
+  <text x="24437.26" y="6036.58"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">(server)</text>
+  <text x="24196.1" y="6457.45"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">LED Lamp</text>
+  <text x="25358.63" y="14329.22"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">PicoW</text>
+  <text x="25344.76" y="14763.39"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">(server)</text>
+  <text x="25669.07" y="15184.26"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">Dial</text>
+  <text x="24717.39" y="15576.72"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(picoW may only</text>
+  <text x="24409.78" y="15962.52"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">respond to requests)</text>
+  <text x="23641.94" y="16348.32"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(but still have its own webpage</text>
+  <text x="24870.48" y="16734.13"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">to be querried)</text>
+  <text x="11865.25" y="19133.61"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">Website</text>
+  <text x="11995.75" y="19624.63"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">(client)</text>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M14842.19 13391.26l-1937 4632.81 -57.93 -24.22 1937 -4632.81 57.93 24.22zm111.56 -348.24l29.1 428.84 -354.66 -148.29 325.56 -280.55z"/>
+  </g>
+  <text x="12224.83" y="15108.72"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="12450.93" y="15535.5"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(GET)</text>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M13626.57 17994.14l1936.99 -4632.81 57.93 24.22 -1936.99 4632.81 -57.93 -24.22zm-111.56 348.24l-29.1 -428.84 354.66 148.29 -325.56 280.55z"/>
+  </g>
+  <text x="14917.37" y="15541.91"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  <text x="14804.31" y="15968.69"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(webpage)</text>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M24301.91 13712.22l-3082.25 -1096.79 21.06 -59.16 3082.25 1096.79 -21.06 59.16zm353.76 92.55l-426.63 52.27 128.87 -362.18 297.76 309.91z"/>
+  </g>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M21356.5 13214.66l3082.26 1096.78 -21.06 59.16 -3082.26 -1096.78 21.06 -59.16zm-353.76 -92.55l426.63 -52.27 -128.87 362.17 -297.76 -309.9z"/>
+  </g>
+  <text x="22644.56" y="12335.65"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="22305.41" y="12762.42"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(getValue)</text>
+  <text x="21616.79" y="14322.16"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  <text x="21277.62" y="14748.93"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(dialValue)</text>
+  <text x="15511.41" y="2980.01"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">PicoW</text>
+  <text x="15497.54" y="3414.18"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">(server)</text>
+  <text x="15675.33" y="3835.05"  fill="black" font-weight="normal" font-size="376.73px" font-family="Arial">Clock</text>
+  <text x="14658.78" y="4227.51"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(picoW can request </text>
+  <text x="14889.39" y="4613.31"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">info from server)</text>
+  <g>
+   <text x="13225.59" y="10996.01"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request:</text>
+   <text x="12886.43" y="11422.79"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">arrives as:</text>
+   <text x="12547.27" y="11849.56"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">data[”action”]</text>
+   <text x="12660.32" y="12276.34"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">data[”value”]</text>
+   <polygon fill="black" points="13225.59,11030.26 15034.42,11030.26 15034.42,11047.38 13225.59,11047.38 "/>
+   <polygon id="1" fill="black" points="12886.43,11457.03 15373.57,11457.03 15373.57,11474.15 12886.43,11474.15 "/>
+   <polygon id="2" fill="black" points="12547.27,11883.81 12547.27,11883.81 12547.27,11900.93 12547.27,11900.93 "/>
+   <text x="17822.22" y="10995.82"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response:</text>
+   <text x="17596.11" y="11422.6"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">is sent as:</text>
+   <text x="17370.01" y="11849.37"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">rData[”item”]</text>
+   <text x="17143.9" y="12276.15"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">rData[”status”]</text>
+   <polygon fill="black" points="17822.22,11030.07 19857.15,11030.07 19857.15,11047.19 17822.22,11047.19 "/>
+   <polygon id="1" fill="black" points="17596.11,11456.84 20083.26,11456.84 20083.26,11473.97 17596.11,11473.97 "/>
+   <polygon id="2" fill="black" points="17370.01,11883.62 17370.01,11883.62 17370.01,11900.74 17370.01,11900.74 "/>
+  </g>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M16637.14 5174.18l127.62 3403.26 -62.76 2.35 -127.62 -3403.26 62.76 -2.35zm-45.03 -362.94l206.57 377 -384.2 14.41 177.63 -391.41z"/>
+  </g>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M15920.89 8245.23l-127.62 -3403.26 62.76 -2.35 127.62 3403.26 -62.76 2.35zm45.03 362.94l-206.57 -377 384.2 -14.41 -177.63 391.41z"/>
+  </g>
+  <text x="13883.5" y="6516.1"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="13657.4" y="6942.87"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(getTime)</text>
+  <text x="16942.27" y="6443.77"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  <text x="17168.38" y="6870.55"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(time)</text>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M23089.44 7128.73l-2572.71 2021.07 -38.78 -49.37 2572.71 -2021.07 38.78 49.37zm267.06 -249.71l-183.49 388.62 -237.44 -302.26 420.94 -86.37z"/>
+  </g>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M21096.48 9353.97l2572.71 -2021.07 38.78 49.37 -2572.71 2021.07 -38.78 -49.37zm-267.06 249.71l183.49 -388.62 237.44 302.26 -420.94 86.37z"/>
+  </g>
+  <text x="20352.74" y="7385.61"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="20352.74" y="7812.39"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(on/off)</text>
+  <g transform="matrix(0.998375 0 0 1 7071.76 -5881.2)">
+   <text x="15499.76" y="14579.05"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  </g>
+  <g transform="matrix(0.998375 0 0 1 7071.76 -5881.2)">
+   <text x="14934.49" y="15005.82"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(confirmation)</text>
+  </g>
+  <text x="1515.08" y="8801.46"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request:</text>
+  <text x="1175.92" y="9228.24"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">arrives as:</text>
+  <text x="836.76" y="9655.01"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">data[”action”]</text>
+  <text x="949.81" y="10081.79"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">data[”value”]</text>
+  <polygon fill="black" points="1515.08,8835.71 3323.91,8835.71 3323.91,8852.83 1515.08,8852.83 "/>
+  <polygon id="1" fill="black" points="1175.92,9262.48 3663.07,9262.48 3663.07,9279.61 1175.92,9279.61 "/>
+  <polygon id="2" fill="black" points="836.76,9689.26 836.76,9689.26 836.76,9706.38 836.76,9706.38 "/>
+  <text x="5154.17" y="8817.16"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response:</text>
+  <text x="4928.06" y="9243.94"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">is sent as:</text>
+  <text x="4701.96" y="9670.71"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">rData[”item”]</text>
+  <text x="4475.86" y="10097.49"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">rData[”status”]</text>
+  <polygon fill="black" points="5154.17,8851.41 7189.11,8851.41 7189.11,8868.53 5154.17,8868.53 "/>
+  <polygon id="1" fill="black" points="4928.06,9278.18 7415.21,9278.18 7415.21,9295.3 4928.06,9295.3 "/>
+  <polygon id="2" fill="black" points="4701.96,9704.96 4701.96,9704.96 4701.96,9722.08 4701.96,9722.08 "/>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M11886.93 9118.97l-3972.72 -1264.79 19.04 -59.84 3972.72 1264.79 -19.04 59.84zm356.67 80.6l-424.63 66.59 116.62 -366.3 308.01 299.71z"/>
+  </g>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M8050.49 8464.89l3972.72 1264.79 -19.04 59.84 -3972.72 -1264.79 19.04 -59.84zm-356.67 -80.6l424.63 -66.59 -116.62 366.3 -308.01 -299.71z"/>
+  </g>
+  <rect fill="none" stroke="black" stroke-width="15.7" stroke-miterlimit="2.61313" x="12377.38" y="9206.52" width="8413.79" height="3783.06" rx="582.49" ry="502.55"/>
+  <text x="12393.08" y="1530.5"  fill="black" font-weight="normal" font-size="753.48px" font-family="Arial">MakerspaceNetwork</text>
+  <text x="9802.18" y="7709.1"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="9463.03" y="8135.88"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(getValue)</text>
+  <text x="8996.09" y="9755.92"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  <text x="8543.88" y="10182.7"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(lightLevel)</text>
+  <text x="1724.75" y="1288.35"  fill="black" font-weight="normal" font-size="439.53px" font-family="Arial">Website</text>
+  <text x="1996.56" y="1694.11"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(client)</text>
+  <text x="806.19" y="2079.91"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">(each picoW can have</text>
+  <text x="892.35" y="2465.71"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">its own webpage that </text>
+  <text x="1065.38" y="2851.51"  fill="black" font-weight="normal" font-size="345.35px" font-family="Arial">can control device)</text>
+  <g>
+   <path fill="red" fill-rule="nonzero" d="M2994.83 3521.7l1092.82 3253.22 -59.52 19.99 -1092.82 -3253.22 59.52 -19.99zm-145.75 -335.32l304.63 303.15 -364.35 122.39 59.72 -425.54z"/>
+  </g>
+  <text x="3798.33" y="3709.48"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Request</text>
+  <text x="4024.43" y="4136.26"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(GET)</text>
+  <g>
+   <path fill="blue" fill-rule="nonzero" d="M4404.18 6327.75l-1092.82 -3253.22 59.52 -19.99 1092.82 3253.22 -59.52 19.99zm145.75 335.32l-304.63 -303.15 364.35 -122.39 -59.72 425.54z"/>
+  </g>
+  <text x="1169.46" y="4745.51"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">Response</text>
+  <text x="1056.4" y="5172.29"  fill="black" font-weight="normal" font-size="376.73px" font-family="Courier New">(webpage)</text>
+ </g>
+</svg>
