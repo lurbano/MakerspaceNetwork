@@ -15,6 +15,7 @@ May have to install aiohttp with:
 pip3 install aiohttp
 ```
 
+![Network Diagram](MakerspaceNetwork-diagram.svg)
 
 ## For PicoW: picoW/code.py
 PicoW server using adafruit's requests
