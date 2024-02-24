@@ -26,8 +26,12 @@ print("Connected to", ssid)
 pool = socketpool.SocketPool(wifi.radio)
 server = HTTPServer(pool)
 
+'''To communicate to other devices on MakerspaceNetwork use uNetComm'''
 # from uNetComm import *
 # comm = uNetComm(pool)
+''' Request example:
+comm.request("http://20.1.0.96:80", "photoResistor")
+'''
 
 led = DigitalInOut(board.LED)
 led.direction = Direction.OUTPUT
@@ -38,7 +42,15 @@ led.value = False
 def requestToArray(request):
     raw_text = request.body.decode("utf8")
     print("Raw")
-    data = json.loads(raw_text)
+    try:
+        data = json.loads(raw_text)
+    except:
+        print()
+        print("Unable to convert request to object: requestToArray()")
+        print()
+        data = {}
+        data["action"] = ""
+        data["value"] = ""
     return data
 
 @server.route("/", "GET")

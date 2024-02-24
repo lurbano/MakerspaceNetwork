@@ -66,8 +66,10 @@ async def main():
     '''Testing POST request'''
     # await postRequest("192.168.1.142:8000", action="Rhythmbox", value="play")
     # await postRequest("192.168.1.142:8000", action="Rhythmbox", value="play")
-    await postRequest("20.1.0.96:80", action="photoResistor", value="")
-    
+    try:
+        await postRequest("20.1.0.96:80", action="photoResistor", value="")
+    except:
+        print("No photoresistor")
     await asyncio.Event().wait()  # Keep the event loop running
 
 if __name__ == '__main__':
