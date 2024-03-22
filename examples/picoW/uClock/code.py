@@ -6,6 +6,7 @@ from adafruit_httpserver.mime_type import MIMEType
 from adafruit_httpserver.request import HTTPRequest
 from adafruit_httpserver.response import HTTPResponse
 from adafruit_httpserver.server import HTTPServer
+import adafruit_ntp
 
 import json
 import board
@@ -16,25 +17,26 @@ import time
 import os
 import math
 from ledPixelsPico import *
+from uNetComm import *
 from uKnob import uKnob
+from uSchedule import *
+from ledClock import *
 
-# camp light
-campLight = ledPixels(1, board.GP18)
-campLight.light(0, (255,0,0))
 
 # led Ring
-ledMode = "sin"
-modes = ["rainbow", "solidColor", "off", "sin"]
+ledMode = "clock"
+modes = ["rainbow", "solidColor", "off", "sin", "clock"]
 old_ledMode = ledMode
-ledPix = ledPixels(76, board.GP20)
+#ledPix = ledPixels(72, board.GP17)
 #ledPix.brightness = 50
 
 # touch sensor
-touch = touchio.TouchIn(board.GP21)
+touch = touchio.TouchIn(board.GP28)
 print("Start touch", touch.value)
 
 # brightness Knob
-brightKnob = uKnob(board.A1)
+brightness = 1.0
+#brightKnob = uKnob(board.A1)
 l_lightsON = True
 
 solidColor = '#2ec27e'
@@ -60,13 +62,18 @@ with open("index.html") as f:
 #ssid, password = secrets.WIFI_SSID, secrets.WIFI_PASSWORD  # pylint: disable=no-member
 ssid, password = "Wifipower", "defacto1"  # pylint: disable=no-member
 
-print("Connecting to", ssid)
-wifi.radio.connect(ssid, password)
-print("Connected to", ssid)
+#print("Connecting to", ssid)
+#wifi.radio.connect(ssid, password)
+#print("Connected to", ssid)
 
-pool = socketpool.SocketPool(wifi.radio)
+#pool = socketpool.SocketPool(wifi.radio)
+pool = uNetConnect(ssid, password)
 server = HTTPServer(pool)
-
+# get time
+#ntp = adafruit_ntp.NTP(pool, tz_offset=0)
+ledPix = ledClock(board.GP17, 72, pool, True)
+checkTime = True
+#print("Time: ", ntp.datetime)
 
 def requestToArray(request):
     raw_text = request.body.decode("utf8")
@@ -116,6 +123,7 @@ def base(request: HTTPRequest):
         changeMode(data['value'])
         print("ledMode:", ledMode)
         #solidColorCheck = True
+        checkTime = True
             
         rData['item'] = "mode"
         rData['status'] = ledMode
@@ -193,7 +201,7 @@ while True:
             LEDs
         '''
         
-        brightness = brightKnob.getPercent()/100
+        #brightness = brightKnob.getPercent()/100
         #print(brightness)
         if brightness < 0.02:
             ledPix.off()
@@ -204,7 +212,7 @@ while True:
                 # rainbow
                 for j in range(255):
                     for i in range(ledPix.nPix):
-                        setBrightness()
+                        #setBrightness()
                         pixel_index = (i * 256 // ledPix.nPix) + j
                         
                         ledPix.pixels[i] = ledPix.wheel(pixel_index & 255, 0.5) 
@@ -214,7 +222,7 @@ while True:
                     if ledMode == "rainbow":
                         time.sleep(0.01)
                         # check brightness dial
-                        ledPix.brighness = brightKnob.getPercent()/100
+                        #ledPix.brighness = brightKnob.getPercent()/100
                         
                     else:
                         break
@@ -236,14 +244,29 @@ while True:
                     currentSolidColor = modeColors[ledMode]
                 server.poll()
                 if touchCheck():
-                    changeMode("off")
+                    changeMode("clock")
                         
             
+            elif ledMode == "clock":
+                if checkTime:
+                    clock = ledPix
+                    clock.initTime()
+                    checkTime = False
+                    
+                dtime = time.monotonic() - clock.zeroTime
+                clock.now = clock.startTime.addSecs(dtime)
+                #print(dtime, clock.now)
+                clock.lightToTime(clock.now)
+                
+                if touchCheck():
+                    checkTime = True
+                    changeMode("off")
+                        
             elif ledMode == "off":
                 ledPix.off()
                 
                 if touchCheck():
-                        changeMode("rainbow")
+                    changeMode("rainbow")
                         
                         
             else:

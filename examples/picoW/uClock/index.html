@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PicoW Test Server</title>
+    <style>
+        .genControls {
+            width: 30%;
+            height: 4em;
+            font-size: x-large;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pico W here.
+
+    <div id="data">Hi</div>
+
+    <input type="button" id="led" value="LED"> -->
+
+    <div>
+        <input type="button" id="lightToggle" value="Switch ON/OFF" class="genControls">
+    </div>
+
+    <p></p>
+
+    <h2> Mode </h2>
+
+    <select name="ledModes" id="ledModes" class="genControls">
+        <option value="rainbow">Rainbow</option>
+        <option value="red">Red</option>
+        <option value="white">"White"</option>
+        <option value="blue">"Blue"</option>
+        <option value="solid">Pick Color</option>
+        <option value="sin">sinusoid</option>
+        <option value="off">Off</option>
+    </select>
+
+    <div id="modeOptions"></div>
+    <div id="responseArea"></div>
+
+
+</body>
+<script>
+    d = document;
+
+    responseArea = d.getElementById("responseArea");
+
+    // ledStatus = "OFF";
+    // ledButton = d.getElementById("led");
+    // ledButton.addEventListener("click", makeRequest);
+
+    function makeRequest() {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+                ledButton.value = data['status'] ? "ON" : "OFF";
+            }
+        }
+        let data = {};
+        ledStatus = ledStatus === "OFF" ? "ON" : "OFF";
+        data["action"] = ledStatus;
+        xR.open("POST", "led", true);
+        xR.send(JSON.stringify(data));
+    }
+
+    function sendRequest(target, action, value = "") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+                console.log(data);
+                // responseArea.innerText = data['status'];
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        console.log("data:", data);
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
+
+
+
+    function addColorPicker2(mode, id, optsElement) {
+        t = d.createTextNode(`Color ${id}:`);
+        optsElement.appendChild(t);
+        let cp = d.createElement("INPUT");
+        cp.setAttribute("type", "color");
+        cp.setAttribute("id", `checkColor_${id}`);
+        cp.setAttribute("class", "checkColors");
+        optsElement.appendChild(cp);
+        cp.addEventListener("change",
+            () => sendRequest('/',
+                "setColor",
+                { "mode": mode, "id": id, "value": cp.value }));
+    }
+
+    modeSelection = d.getElementById("ledModes");
+    modeSelection.addEventListener("change", setMode);
+
+    function setMode() {
+        console.log(modeSelection.value);
+        modeOpts = d.getElementById("modeOptions");
+        modeOpts.innerHTML = "Settings<br>";
+
+        if (modeSelection.value === "solid") {
+            addColorPicker2(modeSelection.value, "solidColor", modeOpts);
+        }
+
+
+        sendRequest("/", "setMode", modeSelection.value);
+
+    }
+
+    lightToggle.addEventListener("click", function () {
+        sendRequest("/", "lightToggle")
+    })
+
+</script>
+
+</html>

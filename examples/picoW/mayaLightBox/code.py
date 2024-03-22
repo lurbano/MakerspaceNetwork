@@ -18,23 +18,21 @@ import math
 from ledPixelsPico import *
 from uKnob import uKnob
 
-# camp light
-campLight = ledPixels(1, board.GP18)
-campLight.light(0, (255,0,0))
 
 # led Ring
-ledMode = "sin"
+ledMode = "rainbow"
 modes = ["rainbow", "solidColor", "off", "sin"]
 old_ledMode = ledMode
-ledPix = ledPixels(76, board.GP20)
+ledPix = ledPixels(128, board.GP15)
 #ledPix.brightness = 50
 
 # touch sensor
-touch = touchio.TouchIn(board.GP21)
+touch = touchio.TouchIn(board.GP16)
 print("Start touch", touch.value)
 
 # brightness Knob
-brightKnob = uKnob(board.A1)
+brightness = 1.0
+#brightKnob = uKnob(board.A1)
 l_lightsON = True
 
 solidColor = '#2ec27e'
@@ -193,7 +191,7 @@ while True:
             LEDs
         '''
         
-        brightness = brightKnob.getPercent()/100
+        #brightness = brightKnob.getPercent()/100
         #print(brightness)
         if brightness < 0.02:
             ledPix.off()
@@ -204,7 +202,7 @@ while True:
                 # rainbow
                 for j in range(255):
                     for i in range(ledPix.nPix):
-                        setBrightness()
+                        #setBrightness()
                         pixel_index = (i * 256 // ledPix.nPix) + j
                         
                         ledPix.pixels[i] = ledPix.wheel(pixel_index & 255, 0.5) 
@@ -214,7 +212,7 @@ while True:
                     if ledMode == "rainbow":
                         time.sleep(0.01)
                         # check brightness dial
-                        ledPix.brighness = brightKnob.getPercent()/100
+                        #ledPix.brighness = brightKnob.getPercent()/100
                         
                     else:
                         break
