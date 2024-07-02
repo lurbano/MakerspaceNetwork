@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .MotorButton{
+        width:50%;
+        height:150px;
+        font-size:2em;
+        
+    }
+    #MotorControls{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: repeat(4,1fr);
+        
+    }
+    #leftforwardform{
+        grid-column:1;
+        grid-row:1;
+    }
+    #rightforwardform{
+        grid-column:3;
+        grid-row:1;
+    }
+     #leftbackwardform{
+        grid-column:1;
+        grid-row:3;
+    }
+     #rightbackwardform{
+        grid-column:3;
+        grid-row:3;
+    }
+    #rightstopform{
+        grid-column:3;
+        grid-row:2;
+    }
+    #leftstopform{
+        grid-column:1;
+        grid-row:2;
+    }
+     #Rampform{
+        grid-column:2;
+        grid-row:3;
+    }
+    .motorToggle {
+        writing-mode: vertical-rl;
+        margin: 10px;
+    }
+</style>
+<body>
+    <form action="./lighton">
+        <input type="submit" value="Light on" />
+    </form>
+    <form action="./lightoff">
+        <input type="submit" value="Light off" />
+    </form>
+    <p>LED is {state}</p>
+    <p>Temperature is {temperature}</p>
+    
+    <div id = "MotorControls">
+        <form action="./rightforward" id = "rightforwardform">
+           <input type="submit" id="rightforward" value="rightforward" class = "MotorButton">
+        </form>
+        <form action="./rightstop" id = "rightstopform">
+           <input type="submit" id="rightstop" value="STOP" class = "MotorButton">
+        </form>
+        <form action="./leftforward" id = "leftforwardform">
+           <input type="submit" id="leftforward" value="leftforward" class = "MotorButton">
+        </form>
+        <form action="./leftbackward" id = "leftbackwardform"> 
+           <input type="submit" id="leftbackward" value="leftbackward" class = "MotorButton">
+        </form>
+        <form action="./rightbackward" id = "rightbackwardform">
+           <input type="submit" id="rightbackward" value="rightbackward" class = "MotorButton">
+        </form>
+        <form action="./leftstop" id = "leftstopform">
+           <input type="submit" id="leftstop" value="STOP" class = "MotorButton">
+        </form>
+        <form action="./Ramp" id = "Rampform">
+           <input type="submit" id="Ramp" value="Ramp" class = "MotorButton">
+        </form>
+        <input type = "button" id = "rightforwardbutton" value = "test" class = "MotorButton">
+        
+    </div>
+    
+    <input type = "range" id = "rightRange" min="-1" max="1" step="1" class="motorToggle">
+</body>
+<script>
+    doc = document;
+    function sendRequest(target, action, value="") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+                
+                //Handle responses
+                if (data["item"] == "onboardLED") {
+                    ledStatus.innerText = data["status"];
+                }
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        console.log("data:", data);
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
+    
+    rightSlider = doc.getElementById("rightRange");
+    
+    rightSlider.addEventListener("change", function(){
+        if (this.value == -1){
+            sendRequest("/", "rightforwardStart");
+        } else if (this.value == 0) {
+            sendRequest("/", "rightforwardStop");
+        } else if (this.value == 1){
+            sendRequest("/", "rightbackwardStart");
+        }
+    })
+    
+    rf = doc.getElementById("rightforwardbutton");
+    rf.addEventListener("mousedown", function(){
+        console.log("pressed");
+        sendRequest("/", "rightforwardStart");
+    })
+    rf.addEventListener("mouseup", function(){
+        console.log("released");
+        sendRequest("/", "rightforwardStop");
+    })
+    rf.addEventListener("touchstart", function(){
+        console.log("pressed");
+        sendRequest("/", "rightforwardStart");
+    }, {passive: false})
+    rf.addEventListener("touchend", function(){
+        console.log("released");
+        sendRequest("/", "rightforwardStop");
+    }, {passive: false})
+    rf.addEventListener("touchcancel", function(){
+        console.log("released");
+        sendRequest("/", "rightforwardStop");
+    }, {passive: false})
+</script>
+</html>
