@@ -80,12 +80,17 @@
         let tbody = document.createElement("tbody");
         table.appendChild(tbody);
         // add rows
+        
         for (let dataRow of data){
             let row = tbody.insertRow();
-            for (let d of dataRow){
-                let cell = row.insertCell();
-                cell.innerHTML = d;
-            }
+            Object.values(data).forEach(value => {
+                const cell = newRow.insertCell();
+                cell.innerHTML = value;
+            });
+            // for (let d of dataRow){
+            //     let cell = row.insertCell();
+            //     cell.innerHTML = d;
+            // }
 
         }
 
