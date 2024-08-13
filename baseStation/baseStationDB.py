@@ -4,7 +4,7 @@ from datetime import datetime
 
 db_path = './db/'
 
-class baseStationDb:
+class baseStationDB:
     def __init__(self):
         self.activeDb = TinyDB(db_path+'activeDb.json')
 
