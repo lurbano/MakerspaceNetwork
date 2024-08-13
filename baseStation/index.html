@@ -109,10 +109,12 @@
             let row = tbody.insertRow();
             Object.entries(dataRow).forEach(([key, value]) => {
                 const cell = row.insertCell();
+                let cellVal = value;
                 if (key === 'ip'){
-                    value = `<a href="${value}>${value}</a>`;
+                    cellVal = `<a href="${value}>${value}</a>`;
                 }
-                cell.innerHTML = value;
+                console.log("  ", key, cellVal);
+                cell.innerHTML = cellVal;
             });
 
         }
