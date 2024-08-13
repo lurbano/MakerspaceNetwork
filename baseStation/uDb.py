@@ -9,10 +9,10 @@ class uDb:
 
     def insert(self, 
                ip="", 
+               deviceName="", 
                hostname="", 
-               job="", 
                notes=""):
-        id = self.activeDb.insert({'ip': ip, 'hostname': hostname, 'job': job, 'notes': notes})
+        id = self.activeDb.insert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes})
         return id
     
     def find(self, param="", value=""):

@@ -36,7 +36,10 @@ async def handlePost(request):
         # register device with the base station
         info = data['value']
         print("Registering: ", info)
-        db.insert(info )
+        db.insert(ip=info['ip'], 
+               deviceName=info['deviceName'], 
+               hostname=info['hostname'], 
+               notes=info['notes'] )
         rData['item'] = 'registerDevice'
         rData['status'] = 'registered'
     
