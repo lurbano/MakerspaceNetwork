@@ -74,7 +74,7 @@
         Object.keys(data[0]).forEach(key => {
             const th = document.createElement("th");
             th.innerText = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
-            headerRow.appendChild(th);
+            row.appendChild(th);
         });
 
         let tbody = document.createElement("tbody");
