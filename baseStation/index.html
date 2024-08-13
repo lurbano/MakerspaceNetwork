@@ -62,6 +62,34 @@
 
     updateDeviceTable();
 
+    function insertDeviceTable(data){
+        let table = document.getElementById('deviceTable');
+
+        // header
+        let thead = document.createElement('thead');
+        table.appendChild(thead);
+        let row = thead.insertRow();
+        // Add headers based on object keys
+        Object.keys(data[0]).forEach(key => {
+            const th = document.createElement("th");
+            th.innerText = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+            headerRow.appendChild(th);
+        });
+
+        let tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+        // add rows
+        for (let dataRow of data){
+            let row = tbody.insertRow();
+            for (let d of dataRow){
+                let cell = row.insertCell();
+                cell.innerHTML = d;
+            }
+
+        }
+
+    }
+
 </script>
 
 </html>
