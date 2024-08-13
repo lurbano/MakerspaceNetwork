@@ -14,7 +14,7 @@ class baseStationDB:
                hostname="", 
                notes=""):
         id = self.activeDb.insert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 
-               'time':getTimeString()})
+               'lastUpdateTime':getTimeString()})
         return id
     
     def updateLog(self, 
@@ -23,7 +23,7 @@ class baseStationDB:
                hostname="", 
                notes=""):
         Device = Query()
-        id = self.activeDb.upsert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 'time': getTimeString()}, Device.deviceName == deviceName)
+        id = self.activeDb.upsert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 'lastUpdateTime': getTimeString()}, Device.deviceName == deviceName)
         return id
     
     def find(self, param="", value=""):
