@@ -39,7 +39,7 @@ async def handlePost(request):
         db.insert(
             ip=info.ip, 
             hostname=info.hostname, 
-            job=info.job, 
+            deviceName=info.deviceName, 
             notes=info.notes )
         rData['item'] = 'registerDevice'
         rData['status'] = 'registered'
