@@ -42,6 +42,11 @@ async def handlePost(request):
                notes=info['notes'] )
         rData['item'] = 'registerDevice'
         rData['status'] = 'registered'
+
+    if data['action'] == 'getDeviceTable':
+        devices = db.all()
+        rData['item'] = 'getDeviceTable'
+        rData['status'] = devices
     
     response = json.dumps(rData)
     print("Response: ", response)

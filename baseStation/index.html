@@ -11,6 +11,7 @@
 
     <input id="lightLevelButton" type="button" value="Get Light Level From Makerspace Testing PicoW">
     <div id="MkspPhotoResistor"></div>
+    <div id="deviceTable"></div>
 </body>
 
 <script>
@@ -34,6 +35,9 @@
                     console.log("Light Level: ", data["status"]);
                     MkspPhotoResistor.innerText = data["status"];
                 }
+                if (data["item"] == "getDeviceTable") {
+                    deviceTable.innerHTML = data['status'];
+                }
             }
         }
         let data = {};
@@ -50,6 +54,13 @@
     lightLevelButton.addEventListener("click", function(){
         sendRequest("/", "photoResistor");
     })
+
+
+    function updateDeviceTable(){
+        sendRequest("/", 'getDeviceTable')
+    }
+
+    updateDeviceTable();
 
 </script>
 
