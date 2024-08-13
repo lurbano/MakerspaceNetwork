@@ -19,7 +19,15 @@ led.direction = Direction.OUTPUT
 led.value = False
 
 from uNetComm import *
+deviceInfo = {
+    'deviceName': 'picow_netTester',
+    'notes': 'picoW used to test the Makerspace Network',
+    'hostname': ''
+    }
 
+with open("index.html") as f:
+    webpage = f.read()
+    
 #  connect to network
 print()
 print("Connecting to WiFi")
@@ -30,7 +38,7 @@ print("Connecting to WiFi")
 # gateway =  ipaddress.IPv4Address("192.168.1.1")
 # wifi.radio.set_ipv4_address(ipv4=ipv4,netmask=netmask,gateway=gateway)
 #  connect to your SSID
-wifi.radio.connect('Wifipower', 'defacto1')
+wifi.radio.connect('TFS Students', 'Fultoneagles')
 
 print("Connected to WiFi")
 pool = socketpool.SocketPool(wifi.radio)
@@ -38,8 +46,6 @@ server = Server(pool, "/static", debug=True)
 port = 80
 comm = uNetComm(pool)
 
-with open("index.html") as f:
-    webpage = f.read()
 
 # UTILITY FUNCTIONS
 def requestToArray(request):
@@ -134,6 +140,16 @@ try:
     server.start(str(wifi.radio.ipv4_address), port)
     print("Listening on http://%s:80" % wifi.radio.ipv4_address)
     print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
+    # log device on makerspace network
+    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
+               "deviceName": deviceInfo['deviceName'],
+               "hostname": deviceInfo['hostname'],
+               "notes": deviceInfo['notes']
+               }
+    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
+    print('registered:', regData.text)
+        
+
 #  if the server fails to begin, restart the pico w
 except OSError:
     time.sleep(5)
