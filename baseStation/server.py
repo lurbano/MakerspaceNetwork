@@ -6,8 +6,8 @@ import json
 from uAio import *
 
 # database
-from uDb import *
-db = uDb()
+from baseStationDB import *
+db = baseStationDB()
 
 async def handle(request):
     with open("index.html", "r") as f:
@@ -36,7 +36,7 @@ async def handlePost(request):
         # register device with the base station
         info = data['value']
         print("Registering: ", info)
-        db.insert(ip=info['ip'], 
+        db.updateLog(ip=info['ip'], 
                deviceName=info['deviceName'], 
                hostname=info['hostname'], 
                notes=info['notes'] )
