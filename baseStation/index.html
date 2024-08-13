@@ -36,7 +36,8 @@
                     MkspPhotoResistor.innerText = data["status"];
                 }
                 if (data["item"] == "getDeviceTable") {
-                    deviceTable.innerHTML = data['status'];
+                    // deviceTable.innerHTML = data['status'];
+                    insertDeviceTable(data['status'])
                 }
             }
         }
