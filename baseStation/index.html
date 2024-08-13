@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* Style the table with borders */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Style for all table cells and headers */
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Style for the table header row */
+        thead {
+            background-color: #f2f2f2; /* Light gray shade */
+        }
+
+        /* Style for table rows */
+        tr:hover {
+            background-color: #e0e0e0; /* Slightly darker gray on hover */
+        }
+    </style>
 </head>
 <body>
     <input type="button" id = "timeBut" value="Get Time">
@@ -83,14 +107,13 @@
         
         for (let dataRow of data){
             let row = tbody.insertRow();
-            Object.values(dataRow).forEach(value => {
+            Object.entries(dataRow).forEach(([key, value]) => {
                 const cell = row.insertCell();
+                if (key === 'ip'){
+                    value = `<a href="${value}>${value}</a>`;
+                }
                 cell.innerHTML = value;
             });
-            // for (let d of dataRow){
-            //     let cell = row.insertCell();
-            //     cell.innerHTML = d;
-            // }
 
         }
 
