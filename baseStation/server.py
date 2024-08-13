@@ -72,13 +72,14 @@ async def main():
 
     runner = web.AppRunner(app)
     await runner.setup()
+    port = 27182
 
     host = getIP()
-    site = web.TCPSite(runner, host, 8080)  # Bind to the local IP address
+    site = web.TCPSite(runner, host, port)  # Bind to the local IP address
     await site.start()
-    print(f"Server running at http://{host}:8080/")
+    print(f"Server running at http://{host}:{port}/")
 
-    asyncio.create_task(print_hello())
+    # asyncio.create_task(print_hello())
     # asyncio.create_task(getLightLevel(dt=5))
 
     '''Testing post request'''
