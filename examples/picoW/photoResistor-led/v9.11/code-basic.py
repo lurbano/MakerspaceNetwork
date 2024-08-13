@@ -1,8 +1,6 @@
-'''
-Basic PicoW networking setup
-
-'''
-
+# SPDX-FileCopyrightText: 2023 Liz Clark for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
 
 import time
 import ipaddress
@@ -20,28 +18,26 @@ led = DigitalInOut(board.LED)
 led.direction = Direction.OUTPUT
 led.value = False
 
-from uNetComm import *
-deviceInfo = {
-    'deviceName': 'picow_netTester',
-    'notes': 'picoW used to test the Makerspace Network',
-    'hostname': ''
-    }
 
 #  connect to network
 print()
 print("Connecting to WiFi")
-#  connect to your SSID
-wifi.radio.connect('Wifipower', 'defacto1')
 
-with open("index.html") as f:
-    webpage = f.read()
+#  set static IP address
+# ipv4 =  ipaddress.IPv4Address("192.168.1.42")
+# netmask =  ipaddress.IPv4Address("255.255.255.0")
+# gateway =  ipaddress.IPv4Address("192.168.1.1")
+# wifi.radio.set_ipv4_address(ipv4=ipv4,netmask=netmask,gateway=gateway)
+#  connect to your SSID
+wifi.radio.connect('TFS Students', 'Fultoneagles')
 
 print("Connected to WiFi")
 pool = socketpool.SocketPool(wifi.radio)
 server = Server(pool, "/static", debug=True)
 port = 80
-comm = uNetComm(pool)
 
+with open("index.html") as f:
+    webpage = f.read()
 
 # UTILITY FUNCTIONS
 def requestToArray(request):
@@ -52,6 +48,7 @@ def requestToArray(request):
 
 
 # ROUTES
+#  route default static IP
 @server.route("/")
 def base(request: Request):  # pylint: disable=unused-argument
     #  serve the HTML f string
@@ -81,13 +78,13 @@ def base(request: Request):
         rData['item'] = "onboardLED"
         rData['status'] = led.value
 
-    # Test sending a request to another device
-    if (data['action']) == 'photoResistor':
-        prData = comm.request("http://20.1.0.96", "photoResistor", "")
-        rData = json.loads(prData.text)
+#     if (data['action']) == 'photoResistor':
+#         rData['item'] = "photoResistor"
+#         rData['status'] = pr.getPercent()
 
     return Response(request, json.dumps(rData))
-
+    # with Response(request) as response:
+    #     response.send(json.dumps(rData))
 
 @server.route("/led", "GET")
 def ledButton(request: Request):
@@ -102,22 +99,39 @@ def ledButton(request: Request):
     rData['status'] = led.value
         
     return Response(request, json.dumps(rData))
+    
+# @server.route("/photoResistor", "GET")
+# def ledButton(request: Request):
+#     rData = {}
+#     
+#     rData['item'] = "photoResistor"
+#     rData['status'] = pr.getPercent()
+#     
+#     return Response(request, json.dumps(rData))
+    
+# #  if a button is pressed on the site
+# @server.route("/", POST)
+# def buttonpress(request: Request):
+#     #  get the raw text
+#     raw_text = request.raw_request.decode("utf8")
+#     print(raw_text)
+#     #  if the led on button was pressed
+#     if "ON" in raw_text:
+#         #  turn on the onboard LED
+#         led.value = True
+#     #  if the led off button was pressed
+#     if "OFF" in raw_text:
+#         #  turn the onboard LED off
+#         led.value = False
+#     #  reload site
+#     return Response(request, f"{webpage()}", content_type='text/html')
 
 print("starting server..")
 # startup the server
 try:
     server.start(str(wifi.radio.ipv4_address), port)
+    print("Listening on http://%s:80" % wifi.radio.ipv4_address)
     print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
-    # log device on makerspace network
-    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
-               "deviceName": deviceInfo['deviceName'],
-               "hostname": deviceInfo['hostname'],
-               "notes": deviceInfo['notes']
-               }
-    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
-    print('registered:', regData.text)
-        
-
 #  if the server fails to begin, restart the pico w
 except OSError:
     time.sleep(5)
@@ -146,6 +160,5 @@ while True:
     except Exception as e:
         print(e)
         continue
-
 
 

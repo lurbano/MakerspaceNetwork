@@ -1,5 +1,5 @@
 '''
-Basic PicoW networking setup
+Runs PicoW with a photoresistor and LED (neopixel) attached
 
 '''
 
@@ -14,6 +14,14 @@ import json
 from digitalio import DigitalInOut, Direction
 from adafruit_httpserver import Server, Request, Response, POST
 
+'''PHOTORESISTOR SETUP'''
+from photoResist import *
+pr = photoResist(board.A0, maxVal=30000, minVal=9000)  #GP26
+
+'''LED SETUP'''
+from ledPixelsPico import *
+pix = ledPixels(1, board.GP15)
+
 
 #  onboard LED setup
 led = DigitalInOut(board.LED)
@@ -22,8 +30,8 @@ led.value = False
 
 from uNetComm import *
 deviceInfo = {
-    'deviceName': 'picow_netTester',
-    'notes': 'picoW used to test the Makerspace Network',
+    'deviceName': 'photoResistor',
+    'notes': 'picoW measuring light levels in the Makerspace',
     'hostname': ''
     }
 
@@ -81,10 +89,10 @@ def base(request: Request):
         rData['item'] = "onboardLED"
         rData['status'] = led.value
 
-    # Test sending a request to another device
+    # Measure light level
     if (data['action']) == 'photoResistor':
-        prData = comm.request("http://20.1.0.96", "photoResistor", "")
-        rData = json.loads(prData.text)
+        rData['item'] = "photoResistor"
+        rData['status'] = pr.getPercent()
 
     return Response(request, json.dumps(rData))
 
@@ -102,6 +110,18 @@ def ledButton(request: Request):
     rData['status'] = led.value
         
     return Response(request, json.dumps(rData))
+
+@server.route("/photoResistor", "GET")
+def ledButton(request: HTTPRequest):
+    rData = {}
+    
+    rData['item'] = "photoResistor"
+    rData['status'] = pr.getPercent()
+    
+    with HTTPResponse(request) as response:
+        response.send(json.dumps(rData))
+
+ 
 
 print("starting server..")
 # startup the server
@@ -129,18 +149,8 @@ clock = time.monotonic() #  time.monotonic() holder for
 
 while True:
     try:
-        #  every 30 seconds, ping server & update temp reading
-        if (clock + 30) < time.monotonic():
-            if wifi.radio.ping(ping_address) is None:
-                
-                print("lost connection")
-            else:
-                
-                print("connected")
-            clock = time.monotonic()
-            
-
-        
+        #  set led light level inversely related to light level
+        pix.light(0, (250*pr.getPercent()/100, 0, 0))
         server.poll()
     # pylint: disable=broad-except
     except Exception as e:
