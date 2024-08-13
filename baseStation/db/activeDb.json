@@ -1,1 +1,0 @@
-{"_default": {"1": {"ip": "20.0.0.1:80", "hostname": "makerspace.local", "job": "Base Station", "notes": "Base Station"}, "2": {"ip": "20.0.0.2:80", "hostname": "photoResistor.local", "job": "Makerspace Photoresistor", "notes": "Photo resistor that monitors light levels in the Makerspace"}}}
