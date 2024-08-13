@@ -83,7 +83,7 @@
         
         for (let dataRow of data){
             let row = tbody.insertRow();
-            Object.values(data).forEach(value => {
+            Object.values(dataRow).forEach(value => {
                 const cell = row.insertCell();
                 cell.innerHTML = value;
             });
