@@ -44,7 +44,7 @@ async def handlePost(request):
         rData['status'] = 'registered'
 
     if data['action'] == 'getDeviceTable':
-        devices = db.all()
+        devices = db.activeDB.all()
         rData['item'] = 'getDeviceTable'
         rData['status'] = devices
     

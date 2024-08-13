@@ -6,14 +6,14 @@ db_path = './db/'
 
 class baseStationDB:
     def __init__(self):
-        self.activeDb = TinyDB(db_path+'activeDb.json')
+        self.activeDB = TinyDB(db_path+'activeDB.json')
 
     def insert(self, 
                ip="", 
                deviceName="", 
                hostname="", 
                notes=""):
-        id = self.activeDb.insert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 
+        id = self.activeDB.insert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 
                'lastUpdateTime':getTimeString()})
         return id
     
@@ -23,12 +23,12 @@ class baseStationDB:
                hostname="", 
                notes=""):
         Device = Query()
-        id = self.activeDb.upsert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 'lastUpdateTime': getTimeString()}, Device.deviceName == deviceName)
+        id = self.activeDB.upsert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 'lastUpdateTime': getTimeString()}, Device.deviceName == deviceName)
         return id
     
     def find(self, param="", value=""):
         q = Query()
-        result = self.activeDb.search(q[param] == value)
+        result = self.activeDB.search(q[param] == value)
         return result
 
 def getTimeString():
