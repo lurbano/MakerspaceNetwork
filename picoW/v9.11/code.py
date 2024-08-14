@@ -20,6 +20,7 @@ led = DigitalInOut(board.LED)
 led.direction = Direction.OUTPUT
 led.value = False
 
+# SET UP NETWORK
 from uNetComm import *
 deviceInfo = {
     'deviceName': 'picow_netTester',
@@ -41,7 +42,7 @@ pool = socketpool.SocketPool(wifi.radio)
 server = Server(pool, "/static", debug=True)
 port = 80
 comm = uNetComm(pool)
-
+#/ NETWORK 
 
 # UTILITY FUNCTIONS
 def requestToArray(request):
@@ -103,6 +104,8 @@ def ledButton(request: Request):
         
     return Response(request, json.dumps(rData))
 
+
+# STARTING SERVER
 print("starting server..")
 # startup the server
 try:
@@ -123,7 +126,7 @@ except OSError:
     time.sleep(5)
     print("restarting..")
     microcontroller.reset()
-ping_address = ipaddress.ip_address("8.8.4.4")
+#/ STARTING SERVER
 
 clock = time.monotonic() #  time.monotonic() holder for 
 

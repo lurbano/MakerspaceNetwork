@@ -58,7 +58,7 @@ with open("index.html") as f:
 
 
 #ssid, password = secrets.WIFI_SSID, secrets.WIFI_PASSWORD  # pylint: disable=no-member
-ssid, password = "Wifipower", "defacto1"  # pylint: disable=no-member
+ssid, password = "TFS Students", "Fultoneagles"  # pylint: disable=no-member
 
 print("Connecting to", ssid)
 wifi.radio.connect(ssid, password)
