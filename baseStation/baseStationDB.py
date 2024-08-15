@@ -3,7 +3,7 @@ from tinydb import TinyDB, Query
 from datetime import datetime
 import os
 
-dir_path = os.path.abspath(__file__)
+dir_path = os.path.dirname(os.path.abspath(__file__))
 print('path:', dir_path)
 db_path = dir_path + '/db/'
 
