@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 User=makerspace
-ExecStart=/usr/bin/python3 /home/makerspace/GitHub/MakerspaceNetwork/baseStation
+ExecStart=/usr/bin/python3 /home/makerspace/GitHub/MakerspaceNetwork/baseStation/server.py
 
 [Install]
 WantedBy=multi-user.target
