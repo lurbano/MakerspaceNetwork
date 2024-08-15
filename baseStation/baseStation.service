@@ -1,0 +1,10 @@
+[Unit]
+Description=Makerspace Network Base Station
+After=multi-user.target
+
+[Service]
+User=makerspace
+ExecStart=/usr/bin/python3 /home/makerspace/GitHub/MakerspaceNetwork/baseStation
+
+[Install]
+WantedBy=multi-user.target
