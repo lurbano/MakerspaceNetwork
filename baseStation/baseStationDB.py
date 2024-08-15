@@ -3,9 +3,9 @@ from tinydb import TinyDB, Query
 from datetime import datetime
 import os
 
-script_path = os.path.abspath(__file__)
-print('path:', script_path)
-db_path = script_path + '/db/'
+dir_path = os.path.abspath(__file__)
+print('path:', dir_path)
+db_path = dir_path + '/db/'
 
 class baseStationDB:
     def __init__(self):
