@@ -12,7 +12,7 @@ db = baseStationDB()
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
 async def handle(request):
-    with open(dir_path+"index.html", "r") as f:
+    with open(dir_path+"/"+"index.html", "r") as f:
         html_content = f.read()
     return web.Response(text=html_content, content_type='text/html')
 
