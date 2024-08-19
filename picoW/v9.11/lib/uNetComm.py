@@ -32,6 +32,10 @@ class uNetComm:
         print('uNetComm response:', response.text)
         
         return response
+    
+    def registerWithBaseStation(self, regInfo={}):
+        regData = self.request("http://makerspace.local:27182", "registerDevice", regInfo)
+        print('registered:', regData.text)
         
 def uNetConnect(ssid="Wifipower", password="defacto1"):
 
@@ -42,6 +46,10 @@ def uNetConnect(ssid="Wifipower", password="defacto1"):
     pool = socketpool.SocketPool(wifi.radio)
     
     return pool
+
+# def registerWithBaseStation(regInfo={}):
+#     regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
+#     print('registered:', regData.text)
 
 if __name__ == '__main__':
     pool = uNetConnect()
