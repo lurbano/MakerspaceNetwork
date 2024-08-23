@@ -33,6 +33,10 @@ class baseStationDB:
         q = Query()
         result = self.activeDB.search(q[param] == value)
         return result
+    
+    def removeByDeviceName(self, deviceName):
+        Device = Query()
+        self.activeDB.remove(Device.deviceName == deviceName)
 
 def getTimeString():
     return datetime.now().strftime("%Y/%m/%d %H:%M:%S")
