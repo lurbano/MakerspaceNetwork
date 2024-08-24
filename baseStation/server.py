@@ -10,6 +10,7 @@ from baseStationDB import *
 db = baseStationDB()
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
+qr_path = f'{dir_path}/qrCodes/'
 
 async def handle(request):
     with open(dir_path+"/"+"index.html", "r") as f:
@@ -75,7 +76,7 @@ async def main():
     app = web.Application()
     app.router.add_get('/', handle)
     app.router.add_post("/", handlePost)
-    app.router.add_routes([web.static('/qrCodes', './qrCodes')])
+    app.router.add_routes([web.static(qr_path, './qrCodes')])
 
     runner = web.AppRunner(app)
     await runner.setup()
