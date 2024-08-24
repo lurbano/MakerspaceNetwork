@@ -14,6 +14,7 @@ class numberLine(ledPixels):
 
         else:
             self.zeroLed = zeroLed
+
         self.maxLed = nPix - zeroLed
         self.minLed = -zeroLed
         self.reverse = reverse
@@ -74,4 +75,12 @@ class numberLine(ledPixels):
         for n in fibs:
             if n < self.maxLed:
                 self.lightup(n, self.posNumCol)
+
+    def clear(self):
+        for i in range(self.nPix):
+            self.lightup(i, (0,0,0))
+
+    def reset(self):
+        self.clear()
+        self.lightZero()
                 

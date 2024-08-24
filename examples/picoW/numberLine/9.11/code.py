@@ -40,10 +40,13 @@ deviceInfo = {
 print()
 print("Connecting to WiFi")
 #  connect to your SSID
-wifi.radio.connect('Wifipower', 'defacto1')
+wifi.radio.connect('TFS Students', 'Fultoneagles')
 
 with open("index.html") as f:
     webpage = f.read()
+with open("manual.html") as f:
+    manualPage = f.read()
+    
 
 print("Connected to WiFi")
 pool = socketpool.SocketPool(wifi.radio)
@@ -98,6 +101,21 @@ def base(request: Request):
         rData['item'] = "numberPattern"
         rData['status'] = {"pattern": opt, "result": result}
 
+    if (data['action']) == 'lightOn':
+        i = int(data['value'])
+        numLine.lightup(i, (0,100,0))
+        
+        rData['item'] = "lightUp"
+        rData['status'] = i
+
+    if (data['action']) == 'lightOff':
+        i = int(data['value'])
+        numLine.lightup(i, (0,0,0))
+        
+        rData['item'] = "lightOff"
+        rData['status'] = i
+
+
     return Response(request, json.dumps(rData))
 
 
@@ -114,6 +132,10 @@ def ledButton(request: Request):
     rData['status'] = led.value
         
     return Response(request, json.dumps(rData))
+
+@server.route("/manual", 'GET')
+def manual(request: Request):  # pylint: disable=unused-argument
+    return Response(request, f"{manualPage}", content_type='text/html')
 
 
 # STARTING SERVER
