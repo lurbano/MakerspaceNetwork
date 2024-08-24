@@ -77,8 +77,6 @@ async def main():
     app.router.add_post("/", handlePost)
     app.router.add_routes([web.static('/qrCodes', './qrCodes')])
 
-    # routes.static('/prefix', path_to_static_folder)
-
     runner = web.AppRunner(app)
     await runner.setup()
     port = 27182
