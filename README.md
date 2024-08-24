@@ -44,3 +44,9 @@ e.g.
 
 (Note: on the webpage (client) the returned data is processed and renamed "data")
 
+# base Station
+
+baseStation requires 'qrencode' to be installed 
+'''bash
+sudo apt install qrencode
+'''

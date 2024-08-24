@@ -1,3 +1,10 @@
+# base Station
+
+baseStation requires 'qrencode' to be installed 
+'''bash
+sudo apt install qrencode
+'''
+
 # Example (Mint)
 
 This example adds a button that gets the server to send a request to another pico (the one that monitors light levels in the makerspace)
