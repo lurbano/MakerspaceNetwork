@@ -30,7 +30,7 @@ class baseStationDB:
         
         # generate qr codes
         fname = f'qrCodes/qr_{ip}.png'
-        full_fname = f'{dir_path}{fname}'
+        full_fname = f'{dir_path}/{fname}'
         subprocess.Popen(f'qrencode -o {full_fname} http://{ip}', shell=True)
         
         Device = Query()
