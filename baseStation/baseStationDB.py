@@ -2,8 +2,10 @@
 from tinydb import TinyDB, Query
 from datetime import datetime
 import os
+import subprocess
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
+qr_path = f'{dir_path}/qrCodes/'
 print('path:', dir_path)
 db_path = dir_path + '/db/'
 
@@ -25,8 +27,21 @@ class baseStationDB:
                deviceName="", 
                hostname="", 
                notes=""):
+        
+        # generate qr codes
+        fname = f'{qr_path}qr_{ip}.png'
+        subprocess.Popen(f'encode -o {fname} http://{ip}', shell=True)
+        
         Device = Query()
-        id = self.activeDB.upsert({'ip': ip, 'deviceName': deviceName, 'hostname': hostname, 'notes': notes, 'lastUpdateTime': getTimeString()}, Device.deviceName == deviceName)
+        id = self.activeDB.upsert({
+            'ip': ip, 
+            'deviceName': deviceName, 
+            'qrCode': fname, 
+            'notes': notes, 
+            'lastUpdateTime': getTimeString()
+            }, 
+            Device.deviceName == deviceName)
+        
         return id
     
     def find(self, param="", value=""):
