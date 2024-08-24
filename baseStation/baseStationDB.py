@@ -30,7 +30,7 @@ class baseStationDB:
         
         # generate qr codes
         fname = f'{qr_path}qr_{ip}.png'
-        subprocess.Popen(f'encode -o {fname} http://{ip}', shell=True)
+        subprocess.Popen(f'qrencode -o {fname} http://{ip}', shell=True)
         
         Device = Query()
         id = self.activeDB.upsert({
