@@ -75,6 +75,9 @@ async def main():
     app = web.Application()
     app.router.add_get('/', handle)
     app.router.add_post("/", handlePost)
+    app.router.add_routes([web.static('/qrCodes', './qrCodes')])
+
+    # routes.static('/prefix', path_to_static_folder)
 
     runner = web.AppRunner(app)
     await runner.setup()
