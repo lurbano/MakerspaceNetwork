@@ -17,10 +17,16 @@
 <script>
 
     nPix = 60;
+    
+    offColor = 'lightgray';
+    onColor = 'lightgreen';
+    inputButtons = [];
+    
     generateNumberLineButtons();
 
     function generateNumberLineButtons(){
         let inputDiv = document.getElementById('manualInputs');
+        
 
         for (let i = 0; i < nPix; i++){
             let b = document.createElement('input');
@@ -34,16 +40,17 @@
                 console.log("lightOn:", this.lightOn)
                 if (this.lightOn === true) {
                     this.lightOn = false;
-                    this.style.backgroundColor = "lightgray";
+                    this.style.backgroundColor = offColor;
                     sendRequest("/", 'lightOff', this.value);
                 } else {
                     this.lightOn = true;
-                    this.style.backgroundColor = "lightgreen" ;
+                    this.style.backgroundColor = onColor ;
                     sendRequest("/", 'lightOn', this.value);
                 }
 
                 
             })
+            inputButtons.push(b);
 
         }
     }
@@ -79,6 +86,10 @@
 
     document.getElementById("reset").addEventListener("click", function () {
         sendRequest("/", "numberPattern", 'reset');
+
+        for (let b of inputButtons){
+            b.style.backgroundColor = offColor;
+        }
     })
 
 
