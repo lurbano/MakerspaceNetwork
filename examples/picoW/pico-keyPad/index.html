@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #switch {
+            height: 4em;
+            width: 10em;
+            background-color: coral;
+        }
+        #switch:hover {
+            background-color: pink;
+
+        }
+    </style>
+</head>
+<body>
+    <input type="button" id="switch" value="Light ON"> 
+    <div id="feedback">on or off</div>
+    
+</body>
+<script>
+    function sendRequest(target, action, value="") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+              
+                feedback.innerText = data['status'];
+                d.getElementById("switch").value = `Light ${data['status']}`;
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
+    d=document;
+    switchstatus=true;
+    onbutton=d.getElementById("switch");
+    onbutton.addEventListener("click",toggle);
+
+    function toggle(){
+        feedback=d.getElementById("feedback");
+
+        if (switchstatus){
+            switchstatus=false;
+            feedback.innerHTML="off"
+            console.log("turning it off");
+            sendRequest("led",action="OFF");
+        } else {
+            switchstatus=true;
+            feedback.innerHTML="on"
+            console.log("turning it on");
+            sendRequest("led",action="ON");
+        }
+    }
+
+</script>
+</html>
