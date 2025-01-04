@@ -226,12 +226,22 @@ class hexController:
                             self.keySeq = []
                             
                             if seq == "056":
-                                lampData = comm.request("http://20.1.0.100/led", "OFF", "test")
-                                print('lampData:', lampData.text)
+                                #lampData = comm.request("http://20.1.0.100/led", "OFF", "test")
+                                #print('lampData:', lampData.text)
+                                
+                                hexData = comm.request("http://20.1.1.203/", "hexOn", "test")
+                                print('hexData:', hexData.text)
+                                mayaData = comm.request("http://20.1.0.89:80/", "setMode", "rainbow")
+                                print('mayaData:', mayaData.text)
+                                musicData = comm.request("http://20.1.0.179:8080/", "startEngine", "test")
+                                print('musicData:', musicData.text)
+                                
                                 
                             if seq == "436":
-                                lampData = comm.request("http://20.1.0.100/led", "ON", "test")
-                                print('lampData:', lampData.text)
+                                hexData = comm.request("http://20.1.1.203/", "hexOff", "test")
+                                print('hexData:', hexData.text)
+                                mayaData = comm.request("http://20.1.0.89:80/", "setMode", "off")
+                                print('mayaData:', mayaData.text)
                         
 #                 if self.hexes[self.resetID].beingTouched:
 #                     for h in self.hexes:
@@ -249,6 +259,7 @@ hCon = hexController()
 
 #hCon.lightOnTouch()
 hCon.keyPad()
+
 
 
 
