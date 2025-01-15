@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="button" id="ledON" value="LED ON">
+    <input type="button" id="ledOFF" value="LED OFF">
+    <div id="ledStatus">LED</div>
+    <input type="button" id="temperatureButton" value="Get Temperature">
+    <span id="temperatureValue">LED</span>
+    <hr>
+    Data Logging:
+    <input type="button" id="resetLoggerButton" value="Reset Logger"> <br>
+    Timestep (seconds): <input type="number" id="dt" value="1">
+    <input type="button" id="loggingButton" value="Start Logging">
+    <div id="dataLogTable">
+        <table>
+            <thead>
+                <tr>
+                  <th>time (sec)</th>
+                  <th>Temperature (°C)</th>
+                </tr>
+            </thead>
+            <tbody id="dataTableBody">
+            </tbody>
+            
+        </table>
+    </div>
+
+</body>
+
+<script>
+    logger = undefined;
+
+    function sendRequest(target, action, value = "") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+
+                //Handle responses
+                if (data["item"] == "onboardLED") {
+                    ledStatus.innerText = data["status"];
+                }
+                if (data["item"] == "T") {
+                    temperatureValue.innerText = data["status"];
+                }
+                if (data["item"] == "timeTemperature") {
+                    console.log("Logging...")
+                    addRowToLogTable(data['status'])
+                }
+                
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        console.log("data:", data);
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
+
+    ledON.addEventListener("click", function () {
+        sendRequest("/", "lightON");
+    })
+    ledOFF.addEventListener("click", function () {
+        sendRequest("/", "lightOFF");
+    })
+    temperatureButton.addEventListener("click", function () {
+        sendRequest("/", "temperature");
+    })
+
+    resetLoggerButton.addEventListener("click", function () {
+        dataTableBody.innerHTML = "";
+        resetLogger();
+        
+    })
+
+    function resetLogger(){
+        if (logger !== undefined){
+            clearInterval(logger);
+            logger = undefined;
+        }
+        document.getElementById("loggingButton").value = "Start Logging";
+    }
+    function startLogger(){
+        logger = setInterval(function(){
+                sendRequest('/', 'timeTemperature');
+            }, document.getElementById('dt').value * 1000);
+    }
+
+    loggingButton.addEventListener("click", function(){
+        if (this.value === "Start Logging") {
+            sendRequest("/", "resetTimer");
+            startLogger();
+            this.value = "Pause Logging";
+        } 
+        else if (this.value === "Pause Logging"){
+            resetLogger();
+            this.value = "Continue Logging";
+        }
+        else if (this.value === "Continue Logging"){
+            startLogger();
+            this.value = "Pause Logging";
+        }
+        
+    })
+
+    function addRowToLogTable(data){
+        console.log("addRow:", data);
+        let row = dataTableBody.insertRow();
+        let cell = row.insertCell();
+        cell.innerText = data['t'];
+        cell = row.insertCell();
+        cell.innerText = data['T'];
+    }
+
+</script>
+
+</html>
