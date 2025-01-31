@@ -38,6 +38,13 @@ async def handlePost(request):
         rData['item'] = "powerUp"
         rData['status'] = "play"
 
+    if data['action'] == "playSound":
+        soundfile = data["value"]
+        #os.system(f"mplayer {homedir}/audio/powerup.wav")
+        asyncio.create_task( play_sound(soundfile))
+        rData['item'] = "playSound"
+        rData['status'] = "play"
+
 
     if data['action'] == 'photoResistor':
         # send request to the Makerspace picoW with the photoresistor
