@@ -16,6 +16,8 @@ from ledPixelsPico import *
 
 #import microcontroller
 
+
+
 from adafruit_httpserver import Server, Request, Response, POST
 
 # nPix = 32
@@ -88,26 +90,7 @@ def ledButton(request: Request):
         
     return Response(request, json.dumps(rData)) 
      
-print("starting server..")
-# startup the server
-try:
-    server.start(str(wifi.radio.ipv4_address), port)
-    print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
-    # log device on makerspace network
-    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
-               "deviceName": deviceInfo['deviceName'],
-               "hostname": deviceInfo['hostname'],
-               "notes": deviceInfo['notes']
-               }
-    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
-    print('registered:', regData.text)
-        
 
-#  if the server fails to begin, restart the pico w
-except OSError:
-    time.sleep(5)
-    print("restarting..")
-    microcontroller.reset()
 
 
 
@@ -184,9 +167,14 @@ class hexController:
         
         self.keySeq = []
         
-    def lightAll(self):
+    def lightAll(self, delay=0.1):
         for hex in self.hexes:
             hex.light()
+            time.sleep(delay)
+            
+    def startUp(self, delay=0.1):
+        self.lightAll(delay)
+        self.offAll()
             
     def offAll(self):
         for hex in self.hexes:
@@ -241,10 +229,13 @@ class hexController:
                                 
                                 
                             if seq == "436":
+                                musicData = comm.request("http://20.1.0.179:8080/", "playSound", "powerdown.wav")
+                                print('musicData:', musicData.text)
                                 hexData = comm.request("http://20.1.1.203/", "hexOff", "test")
                                 print('hexData:', hexData.text)
                                 mayaData = comm.request("http://20.1.0.89:80/", "setMode", "off")
                                 print('mayaData:', mayaData.text)
+                                
                         
 #                 if self.hexes[self.resetID].beingTouched:
 #                     for h in self.hexes:
@@ -254,14 +245,39 @@ class hexController:
 #                 for hex in self.hexes:
 #                     hex.light()
                         
+hCon = hexController()
 
 startTime = time.monotonic()
 print("StartTime:", startTime)
 
-hCon = hexController()
+
+print("starting server..")
+# startup the server
+try:
+    server.start(str(wifi.radio.ipv4_address), port)
+    print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
+    # log device on makerspace network
+    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
+               "deviceName": deviceInfo['deviceName'],
+               "hostname": deviceInfo['hostname'],
+               "notes": deviceInfo['notes']
+               }
+    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
+    print('registered:', regData.text)
+    hCon.startUp(0.25)
+        
+
+#  if the server fails to begin, restart the pico w
+except OSError:
+    time.sleep(5)
+    print("restarting..")
+    microcontroller.reset()
+    
+    
 
 #hCon.lightOnTouch()
 hCon.keyPad()
+
 
 
 
