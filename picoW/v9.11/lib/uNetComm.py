@@ -27,15 +27,22 @@ class uNetComm:
         data = {}
         data["action"] = action
         data["value"] = value
+        dataString = json.dumps(data)
+        print("Requesting")
+        print("request data:", addr, dataString)
         
-        response = self.http.post(addr, data=json.dumps(data))
-        print('uNetComm response:', response.text)
-        
+        try:
+            response = self.http.post(addr, data=json.dumps(data))
+            print('uNetComm response:', response.text)
+            
+        except:
+            print("Failed to connect: No response")
+            response = failedResponse()
         return response
-    
-    def registerWithBaseStation(self, regInfo={}):
-        regData = self.request("http://makerspace.local:27182", "registerDevice", regInfo)
-        print('registered:', regData.text)
+
+class failedResponse:
+    def __init__(self):
+        self.text = "Failed Response"
         
 def uNetConnect(ssid="Wifipower", password="defacto1"):
 
@@ -46,10 +53,6 @@ def uNetConnect(ssid="Wifipower", password="defacto1"):
     pool = socketpool.SocketPool(wifi.radio)
     
     return pool
-
-# def registerWithBaseStation(regInfo={}):
-#     regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
-#     print('registered:', regData.text)
 
 if __name__ == '__main__':
     pool = uNetConnect()
@@ -63,4 +66,6 @@ if __name__ == '__main__':
     resp = comm.request("http://20.1.0.96", "photoResistor")
     jsonResponse = json.loads(resp.text)
     print('json response:', jsonResponse)
+
+
 

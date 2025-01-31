@@ -27,11 +27,22 @@ class uNetComm:
         data = {}
         data["action"] = action
         data["value"] = value
+        dataString = json.dumps(data)
+        print("Requesting")
+        print("request data:", addr, dataString)
         
-        response = self.http.post(addr, data=json.dumps(data))
-        print('uNetComm response:', response.text)
-        
+        try:
+            response = self.http.post(addr, data=json.dumps(data))
+            print('uNetComm response:', response.text)
+            
+        except:
+            print("Failed to connect: No response")
+            response = failedResponse()
         return response
+
+class failedResponse:
+    def __init__(self):
+        self.text = "Failed Response"
         
 def uNetConnect(ssid="Wifipower", password="defacto1"):
 
@@ -55,4 +66,6 @@ if __name__ == '__main__':
     resp = comm.request("http://20.1.0.96", "photoResistor")
     jsonResponse = json.loads(resp.text)
     print('json response:', jsonResponse)
+
+
 
