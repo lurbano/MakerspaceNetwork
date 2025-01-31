@@ -14,6 +14,8 @@ from digitalio import DigitalInOut, Direction
 import time
 from ledPixelsPico import *
 
+#import microcontroller
+
 from adafruit_httpserver import Server, Request, Response, POST
 
 # nPix = 32
@@ -233,7 +235,8 @@ class hexController:
                                 print('hexData:', hexData.text)
                                 mayaData = comm.request("http://20.1.0.89:80/", "setMode", "rainbow")
                                 print('mayaData:', mayaData.text)
-                                musicData = comm.request("http://20.1.0.179:8080/", "startEngine", "test")
+                                #musicData = comm.request("http://20.1.0.179:8080/", "startEngine", "test")
+                                musicData = comm.request("http://20.1.0.179:8080/", "playSound", "powerup.wav")
                                 print('musicData:', musicData.text)
                                 
                                 
