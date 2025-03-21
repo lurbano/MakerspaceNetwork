@@ -39,7 +39,7 @@ deviceInfo = {
 print()
 print("Connecting to WiFi")
 #  connect to your SSID
-wifi.radio.connect('Wifipower', 'defacto1')
+wifi.radio.connect('TFS Students', 'Fultoneagles')
 
 with open("index.html") as f:
     webpage = f.read()
@@ -72,7 +72,7 @@ def base(request: Request):
     Serve the default index.html file.
     """
     rData = {}
-        
+
     print("POST")
     data = requestToArray(request)
     print(f"data: {data} ")
@@ -100,43 +100,35 @@ def base(request: Request):
 @server.route("/led", "GET")
 def ledButton(request: Request):
     rData = {}
-    
+
     if led.value:
         led.value = False
     else:
         led.value = True
-    
+
     rData['item'] = "onboardLED"
     rData['status'] = led.value
-        
+
     return Response(request, json.dumps(rData))
 
 @server.route("/photoResistor", "GET")
 def ledButton(request: HTTPRequest):
     rData = {}
-    
+
     rData['item'] = "photoResistor"
     rData['status'] = pr.getPercent()
-    
+
     with HTTPResponse(request) as response:
         response.send(json.dumps(rData))
 
- 
+
 
 print("starting server..")
 # startup the server
 try:
     server.start(str(wifi.radio.ipv4_address), port)
     print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
-    # log device on makerspace network
-    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
-               "deviceName": deviceInfo['deviceName'],
-               "hostname": deviceInfo['hostname'],
-               "notes": deviceInfo['notes']
-               }
-    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
-    print('registered:', regData.text)
-        
+
 
 #  if the server fails to begin, restart the pico w
 except OSError:
@@ -145,7 +137,20 @@ except OSError:
     microcontroller.reset()
 ping_address = ipaddress.ip_address("8.8.4.4")
 
-clock = time.monotonic() #  time.monotonic() holder for 
+# log device on makerspace network
+try:
+    regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
+               "deviceName": deviceInfo['deviceName'],
+               "hostname": deviceInfo['hostname'],
+               "notes": deviceInfo['notes']
+               }
+    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
+    print('registered:', regData.text)
+except:
+    #go to local mode
+    print("Failed to register to Makerspace Network")
+
+clock = time.monotonic() #  time.monotonic() holder for
 
 while True:
     try:
@@ -156,6 +161,7 @@ while True:
     except Exception as e:
         print(e)
         continue
+
 
 
 
