@@ -94,7 +94,14 @@ def ledButton(request: Request):
 
 
 
-
+def signalMksDevice(comm, ip, item, status, timeout=2):
+    try: 
+        data = comm.request(ip, item, status, timeout=timeout)
+        print(f'data ({ip}):', data.text)
+    except:
+        data = None
+        print(f'{ip} signal failed')
+    return data
 
 
 
@@ -125,8 +132,11 @@ class hexFunc(object):
             #print("touching", self.id)
         return value
             
-    def light(self):
-        self.ledPix.setColor(self.color)            
+    def light(self, color=None):
+        if color != None:
+            self.ledPix.setColor(color)  
+        else:
+            self.ledPix.setColor(self.color)            
         
     def off(self):
         self.ledPix.clear()
@@ -170,6 +180,11 @@ class hexController:
     def lightAll(self, delay=0.1):
         for hex in self.hexes:
             hex.light()
+            time.sleep(delay)
+            
+    def lightAllColor(self, color=[0,250,0], delay=0.1):
+        for hex in self.hexes:
+            hex.light(color)
             time.sleep(delay)
             
     def startUp(self, delay=0.1):
@@ -216,34 +231,20 @@ class hexController:
                             self.keySeq = []
                             
                             if seq == "056":
-                                #lampData = comm.request("http://20.1.0.100/led", "OFF", "test")
-                                #print('lampData:', lampData.text)
                                 
-                                hexData = comm.request("http://20.1.1.203/", "hexOn", "test")
-                                print('hexData:', hexData.text)
-                                mayaData = comm.request("http://20.1.0.89:80/", "setMode", "rainbow")
-                                print('mayaData:', mayaData.text)
-                                #musicData = comm.request("http://20.1.0.179:8080/", "startEngine", "test")
-                                musicData = comm.request("http://20.1.0.179:8080/", "playSound", "powerup.wav")
-                                print('musicData:', musicData.text)
-                                
+                                signalMksDevice(comm, "http://20.1.0.179:8080/", "playSound", "powerup.wav")
+                                signalMksDevice(comm, "http://20.1.1.203/", "hexOn", "test")
+                                signalMksDevice(comm, "http://20.1.0.89:80/", "setMode", "rainbow")
+                                hCon.lightAllColor(color=[0,250,0], delay=0.1)
                                 
                             if seq == "436":
-                                musicData = comm.request("http://20.1.0.179:8080/", "playSound", "powerdown.wav")
-                                print('musicData:', musicData.text)
-                                hexData = comm.request("http://20.1.1.203/", "hexOff", "test")
-                                print('hexData:', hexData.text)
-                                mayaData = comm.request("http://20.1.0.89:80/", "setMode", "off")
-                                print('mayaData:', mayaData.text)
                                 
-                        
-#                 if self.hexes[self.resetID].beingTouched:
-#                     for h in self.hexes:
-#                      h.light()
-                        
-#             if (self.hexes[self.resetID].touching()):
-#                 for hex in self.hexes:
-#                     hex.light()
+                                signalMksDevice(comm, "http://20.1.0.179:8080/", "playSound", "powerdown.wav")
+                                signalMksDevice(comm, "http://20.1.1.203/", "hexOff", "test")
+                                signalMksDevice(comm, "http://20.1.0.89:80/", "setMode", "off")
+                                hCon.lightAllColor(color=[0,0,0], delay=1)
+                                
+
                         
 hCon = hexController()
 
@@ -256,6 +257,15 @@ print("starting server..")
 try:
     server.start(str(wifi.radio.ipv4_address), port)
     print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
+        
+#  if the server fails to begin, restart the pico w
+except OSError:
+    time.sleep(5)
+    print("restarting..")
+    microcontroller.reset()
+    
+# log device on makerspace network
+try:
     # log device on makerspace network
     regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
                "deviceName": deviceInfo['deviceName'],
@@ -264,19 +274,22 @@ try:
                }
     regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
     print('registered:', regData.text)
-    hCon.startUp(0.25)
-        
+    #hCon.startUp(0.25)
+    hCon.lightAllColor(color=[0,0,250], delay=0.25)
+    time.sleep(1)
+    hCon.offAll()
+except:
+    #go to local mode
+    print("Failed to register to Makerspace Network")
 
-#  if the server fails to begin, restart the pico w
-except OSError:
-    time.sleep(5)
-    print("restarting..")
-    microcontroller.reset()
-    
-    
+hCon.lightAllColor(color=[0,250,0], delay=0.25)
+
+
+
 
 #hCon.lightOnTouch()
 hCon.keyPad()
+
 
 
 

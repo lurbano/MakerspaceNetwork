@@ -17,7 +17,7 @@ class uNetComm:
         self.IPs['bedroomSpeaker'] = '192.168.1.142:8000'
         self.IPs['kitchen'] = '192.168.1.131:80'
 
-    def request(self, addr, action, value=""):
+    def request(self, addr, action, value="", timeout=60):
         # check if addr is string in self.IPs list
         for key in self.IPs:
             if addr == key:
@@ -32,7 +32,7 @@ class uNetComm:
         print("request data:", addr, dataString)
         
         try:
-            response = self.http.post(addr, data=json.dumps(data))
+            response = self.http.post(addr, data=json.dumps(data), timeout=timeout)
             print('uNetComm response:', response.text)
             
         except:
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     resp = comm.request("http://20.1.0.96", "photoResistor")
     jsonResponse = json.loads(resp.text)
     print('json response:', jsonResponse)
+
 
 
 
