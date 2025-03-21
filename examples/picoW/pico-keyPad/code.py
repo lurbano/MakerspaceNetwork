@@ -242,7 +242,7 @@ class hexController:
                                 signalMksDevice(comm, "http://20.1.0.179:8080/", "playSound", "powerdown.wav")
                                 signalMksDevice(comm, "http://20.1.1.203/", "hexOff", "test")
                                 signalMksDevice(comm, "http://20.1.0.89:80/", "setMode", "off")
-                                hCon.lightAllColor(color=[0,0,0], delay=1)
+                                hCon.lightAllColor(color=[0,0,0], delay=0.25)
                                 
 
                         
