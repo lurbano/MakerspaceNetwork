@@ -128,6 +128,15 @@ print("starting server..")
 try:
     server.start(str(wifi.radio.ipv4_address), port)
     print(f"Listening on http://{wifi.radio.ipv4_address}:{port}" )
+ 
+#  if the server fails to begin, restart the pico w
+except OSError:
+    time.sleep(5)
+    print("restarting..")
+    microcontroller.reset()
+
+
+try:
     # log device on makerspace network
     regInfo = {"ip": f'{wifi.radio.ipv4_address}:{port}',
                "deviceName": deviceInfo['deviceName'],
@@ -136,14 +145,12 @@ try:
                }
     regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
     print('registered:', regData.text)
+
+except:
+    #go to local mode
+    print("Failed to register to Makerspace Network")
         
 
-#  if the server fails to begin, restart the pico w
-except OSError:
-    time.sleep(5)
-    print("restarting..")
-    microcontroller.reset()
-#/ STARTING SERVER
 
 
 while True:

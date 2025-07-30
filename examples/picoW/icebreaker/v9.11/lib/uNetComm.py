@@ -17,7 +17,7 @@ class uNetComm:
         self.IPs['bedroomSpeaker'] = '192.168.1.142:8000'
         self.IPs['kitchen'] = '192.168.1.131:80'
 
-    def request(self, addr, action, value=""):
+    def request(self, addr, action, value="", timeout=60):
         # check if addr is string in self.IPs list
         for key in self.IPs:
             if addr == key:
@@ -27,11 +27,22 @@ class uNetComm:
         data = {}
         data["action"] = action
         data["value"] = value
+        dataString = json.dumps(data)
+        print("Requesting")
+        print("request data:", addr, dataString)
         
-        response = self.http.post(addr, data=json.dumps(data))
-        print('uNetComm response:', response.text)
-        
+        try:
+            response = self.http.post(addr, data=json.dumps(data), timeout=timeout)
+            print('uNetComm response:', response.text)
+            
+        except:
+            print("Failed to connect: No response")
+            response = failedResponse()
         return response
+
+class failedResponse:
+    def __init__(self):
+        self.text = "Failed Response"
         
 def uNetConnect(ssid="Wifipower", password="defacto1"):
 
@@ -55,4 +66,7 @@ if __name__ == '__main__':
     resp = comm.request("http://20.1.0.96", "photoResistor")
     jsonResponse = json.loads(resp.text)
     print('json response:', jsonResponse)
+
+
+
 
