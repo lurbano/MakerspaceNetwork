@@ -117,9 +117,9 @@ try:
                "hostname": deviceInfo['hostname'],
                "notes": deviceInfo['notes']
                }
-    comm.registerWithBaseStation(regInfo)
-    # regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
-    # print('registered:', regData.text)
+    # comm.registerWithBaseStation(regInfo)
+    regData = comm.request("http://makerspace.local:27182", "registerDevice", regInfo)
+    print('registered:', regData.text)
         
 
 #  if the server fails to begin, restart the pico w
