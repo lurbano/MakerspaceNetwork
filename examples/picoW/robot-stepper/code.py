@@ -86,7 +86,27 @@ def base(request: Request):
         rData['item'] = "onboardLED"
         rData['status'] = led.value
 
-    # Measure light level
+#     if (data['action'] == "Forward"):
+#         robotWheels.forward(1)
+#         
+#         rData['item'] = "Forward"
+#         rData['status'] = 1
+
+    
+    if (data['action'] == "move"):
+        if data['value'] == "Forward":
+            robotWheels.forward(1)
+        elif data['value'] == "Backward":
+            robotWheels.backward(1)
+        elif data['value'] == "spinRight":
+            robotWheels.spinRight(1)
+        elif data['value'] == "spinLeft":
+            robotWheels.spinLeft(1)
+        
+            
+
+        rData['item'] = "move"
+        rData['status'] = data['value']
 
 
     return Response(request, json.dumps(rData))
@@ -146,6 +166,7 @@ while True:
     except Exception as e:
         print(e)
         continue
+
 
 
 

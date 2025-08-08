@@ -4,14 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RudiRobot</title>
+    <style>
+        #robotCtrl {
+            display: grid;
+        }
+        #moveForward {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+        #moveBackward {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 4;
+        }
+        #moveRight {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 2;
+            grid-row-end: 3;
+        }
+        #moveLeft {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 3;
+        }
+    </style>
 </head>
 
 <body>
     <input type="button" id="ledON" value="LED ON">
     <input type="button" id="ledOFF" value="LED OFF">
     <div id="ledStatus">LED</div>
-    <input type="button" id="moveForward" value="Forward"><br>
+
+    <div id="robotCtrl">
+        <input type="button" id="moveForward" value="Forward" class="move"><br>
+        <input type="button" id="moveBackward" value="Backward" class="move"><br>
+        <input type="button" id="moveLeft" value="spinLeft" class="move"><br>
+        <input type="button" id="moveRight" value="spinRight" class="move"><br>
+    </div>
+    
     Status:<span id="robotStatus">LED</span>
 </body>
 
@@ -29,8 +65,8 @@
                 if (data["item"] == "onboardLED") {
                     ledStatus.innerText = data["status"];
                 }
-                if (data["item"] == "photoResistor") {
-                    lightLevelValue.innerText = data["status"];
+                if (data["item"] == "move") {
+                    robotStatus.innerText = data["status"];
                 }
             }
         }
@@ -52,6 +88,19 @@
         sendRequest("/", this.value);
     })
 
+    moveButtons = document.getElementsByClassName("move");
+
+    for (const elem of moveButtons){
+        elem.addEventListener("click", function(){
+            sendRequest("/", "move", value=this.value);
+        })
+    }
+    // moveForward.addEventListener("click", function () {
+    //     sendRequest("/", this.value);
+    // })
+
 </script>
 
 </html>
+
+
