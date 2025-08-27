@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RudiRobot</title>
+    <style>
+ 
+    </style>
+</head>
+
+<body>
+    <input type="button" id="ledON" value="LED ON">
+    <input type="button" id="ledOFF" value="LED OFF">
+    <div id="ledStatus">LED</div>
+
+    <div id="robotCtrl">
+        <input type="button" id="startMonitoring" value="Start Monitoring" ><br>
+        <input type="button" id="getData" value="Get Data" ><br>
+    </div>
+    
+    Status:<span id="data">LED</span>
+</body>
+
+<script>
+    function sendRequest(target, action, value = "") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+
+                //Handle responses
+                if (data["item"] == "onboardLED") {
+                    ledStatus.innerText = data["status"];
+                }
+                if (data["item"] == "move") {
+                    robotStatus.innerText = data["status"];
+                }
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        console.log("data:", data);
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
+
+    startMonitoring.addEventListener("click", function () {
+        sendRequest("/", "startMonitoring");
+    })
+    getData.addEventListener("click", function () {
+        sendRequest("/", "getData");
+    })
+    
+
+</script>
+
+</html>
+
+
