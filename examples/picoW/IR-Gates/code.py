@@ -159,7 +159,7 @@ def base(request: Request):
         
         l_monitor = False
 
-        rData['item'] = "GateData"
+        rData['item'] = "gateData"
         rData['status'] = gateTimes
 
 
@@ -231,12 +231,11 @@ while True:
         else:
             #print("gate check at:", len(gates), time.monotonic())
             for i in range(len(gates)):
-                gate = gates[i]
-                if gate.monitor():
+                if gates[i].monitor():
                     data = {}
                     data["gate"] = i
-                    data["time"] = gate.senseStart-startTime
-                    data["duration"] = gate.senseDuration
+                    data["time"] = gates[i].senseStart-gates[i].startTime
+                    data["duration"] = gates[i].senseDuration
                     print(data)
                     gateTimes.append(data)
                     
@@ -245,6 +244,8 @@ while True:
     except Exception as e:
         print(e)
         continue
+
+
 
 
 

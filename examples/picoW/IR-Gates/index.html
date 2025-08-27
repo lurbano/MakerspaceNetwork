@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RudiRobot</title>
+    <title>IR Gates</title>
     <style>
  
     </style>
@@ -20,7 +20,7 @@
         <input type="button" id="getData" value="Get Data" ><br>
     </div>
     
-    Status:<span id="data">LED</span>
+    Status:<div id="gateData">LED</div>
 </body>
 
 <script>
@@ -32,13 +32,19 @@
 
                 console.log("Server Response:", this.responseText);
                 data = JSON.parse(this.responseText);
+                console.log("Returned data:", data);
+                //console.log(data["item"], data["item"] == "gateData");
 
                 //Handle responses
                 if (data["item"] == "onboardLED") {
                     ledStatus.innerText = data["status"];
                 }
-                if (data["item"] == "move") {
-                    robotStatus.innerText = data["status"];
+                if (data["item"] == "gateData") {
+                    let txt = "<br>";
+                    for (row of data["status"]){
+                        txt += row["gate"] + ": "+ row["time"]+"<br>";
+                    }
+                    gateData.innerHTML = txt;
                 }
             }
         }
@@ -61,5 +67,8 @@
 </script>
 
 </html>
+
+
+
 
 
