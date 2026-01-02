@@ -30,7 +30,7 @@ async def handlePost(request):
 # print "Hello" every 1 second (testing async)
 async def print_hello():
     while True:
-        print("Hello")
+        #print("Hello")
         await asyncio.sleep(1)
 
 ''' Get the light level from the MakerspaceNetwork Testing Pico'''

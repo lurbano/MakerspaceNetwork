@@ -3,7 +3,6 @@ Runs PicoW with a photoresistor and LED (neopixel) attached
 
 '''
 
-
 import time
 import ipaddress
 import wifi
@@ -14,13 +13,11 @@ import json
 from digitalio import DigitalInOut, Direction
 from adafruit_httpserver import Server, Request, Response, POST
 
-'''PHOTORESISTOR SETUP'''
-from photoResist import *
-pr = photoResist(board.A0, maxVal=30000, minVal=9000)  #GP26
-
-'''LED SETUP'''
-from ledPixelsPico import *
-pix = ledPixels(1, board.GP15)
+'''Set up two motors'''
+from motorU import *
+rightMotor = motorU(in1=board.GP6, in2=board.GP7, in3=board.GP8, in4=board.GP9)
+leftMotor = motorU(in1=board.GP18, in2=board.GP19, in3=board.GP20, in4=board.GP21)
+robotWheels = twoMotors(rightMotor, leftMotor)
 
 
 #  onboard LED setup
@@ -30,8 +27,8 @@ led.value = False
 
 from uNetComm import *
 deviceInfo = {
-    'deviceName': 'photoResistor',
-    'notes': 'picoW measuring light levels in the Makerspace',
+    'deviceName': 'rudiRobot',
+    'notes': 'rudimentary robot',
     'hostname': ''
     }
 
@@ -89,10 +86,28 @@ def base(request: Request):
         rData['item'] = "onboardLED"
         rData['status'] = led.value
 
-    # Measure light level
-    if (data['action']) == 'photoResistor':
-        rData['item'] = "photoResistor"
-        rData['status'] = pr.getPercent()
+#     if (data['action'] == "Forward"):
+#         robotWheels.forward(1)
+#         
+#         rData['item'] = "Forward"
+#         rData['status'] = 1
+
+    
+    if (data['action'] == "move"):
+        if data['value'] == "Forward":
+            robotWheels.forward(1)
+        elif data['value'] == "Backward":
+            robotWheels.backward(1)
+        elif data['value'] == "spinRight":
+            robotWheels.spinRight(1)
+        elif data['value'] == "spinLeft":
+            robotWheels.spinLeft(1)
+        
+            
+
+        rData['item'] = "move"
+        rData['status'] = data['value']
+
 
     return Response(request, json.dumps(rData))
 
@@ -111,15 +126,7 @@ def ledButton(request: Request):
 
     return Response(request, json.dumps(rData))
 
-@server.route("/photoResistor", "GET")
-def ledButton(request: HTTPRequest):
-    rData = {}
 
-    rData['item'] = "photoResistor"
-    rData['status'] = pr.getPercent()
-
-    with HTTPResponse(request) as response:
-        response.send(json.dumps(rData))
 
 
 
@@ -154,13 +161,13 @@ clock = time.monotonic() #  time.monotonic() holder for
 
 while True:
     try:
-        #  set led light level inversely related to light level
-        pix.light(0, (250*pr.getPercent()/100, 0, 0))
         server.poll()
     # pylint: disable=broad-except
     except Exception as e:
         print(e)
         continue
+
+
 
 
 
