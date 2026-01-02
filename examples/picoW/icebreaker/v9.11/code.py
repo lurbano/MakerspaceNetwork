@@ -234,6 +234,8 @@ class hexController:
                                 
                                 if 'Icebreaker: Hexagons' in mkspDevicesIPs:
                                     signalMksDevice(comm, mkspDevicesIPs['Icebreaker: Hexagons'], "hexOn", "test")
+                                if 'Makerspace iMac' in mkspDevicesIPs:
+                                    signalMksDevice(comm, mkspDevicesIPs['Makerspace iMac'], "playSound", "powerup.wav")
                                 
                                 #signalMksDevice(comm, "http://20.1.0.179:8080/", "playSound", "powerup.wav")
                                 #signalMksDevice(comm, "http://20.1.1.203/", "hexOn", "test")
@@ -244,6 +246,8 @@ class hexController:
                                 
                                 if 'Icebreaker: Hexagons' in mkspDevicesIPs:
                                     signalMksDevice(comm, mkspDevicesIPs['Icebreaker: Hexagons'], "hexOff", "test")
+                                if 'Makerspace iMac' in mkspDevicesIPs:
+                                    signalMksDevice(comm, mkspDevicesIPs['Makerspace iMac'], "playSound", "powerdown.wav")
                                 
                                 #signalMksDevice(comm, "http://20.1.0.179:8080/", "playSound", "powerdown.wav")
                                 #signalMksDevice(comm, "http://20.1.1.203/", "hexOff", "test")
